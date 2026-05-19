@@ -1,39 +1,32 @@
-import { useEffect, useState, useRef, FormEvent } from "react";
+import { useEffect, useState, FormEvent } from "react";
 
 function useScrollReveal() {
   useEffect(() => {
-    const reveals = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("visible");
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+    const els = document.querySelectorAll(".reveal");
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      { threshold: 0.1, rootMargin: "0px 0px -30px 0px" }
     );
-    reveals.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
   }, []);
+}
+
+function scrollTo(id: string) {
+  const el = document.getElementById(id);
+  if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 68, behavior: "smooth" });
 }
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-
+  const [open, setOpen] = useState(false);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    const fn = () => setScrolled(window.scrollY > 30);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const scrollTo = (id: string) => {
-    setMobileOpen(false);
-    const el = document.getElementById(id);
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 72;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
-  };
+  const go = (id: string) => { setOpen(false); scrollTo(id); };
 
   return (
     <>
@@ -42,78 +35,134 @@ function Nav() {
           <div className="nav-inner">
             <div className="nav-logo">Advanced <span>AI</span></div>
             <ul className="nav-links">
-              <li><a href="#problems" onClick={(e) => { e.preventDefault(); scrollTo("problems"); }}>Il Problema</a></li>
-              <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Servizi</a></li>
-              <li><a href="#process" onClick={(e) => { e.preventDefault(); scrollTo("process"); }}>Come Lavoriamo</a></li>
-              <li><a href="#differentiators" onClick={(e) => { e.preventDefault(); scrollTo("differentiators"); }}>Chi Siamo</a></li>
+              <li><a href="#problems" onClick={(e) => { e.preventDefault(); go("problems"); }}>Il Problema</a></li>
+              <li><a href="#services" onClick={(e) => { e.preventDefault(); go("services"); }}>Servizi</a></li>
+              <li><a href="#process" onClick={(e) => { e.preventDefault(); go("process"); }}>Come Lavoriamo</a></li>
+              <li><a href="#differentiators" onClick={(e) => { e.preventDefault(); go("differentiators"); }}>Chi Siamo</a></li>
               <li>
-                <a href="#contact" className="btn btn-primary" onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>
+                <a href="#contact" className="btn btn-primary" style={{ padding: "0.55rem 1.3rem", fontSize: "0.82rem" }}
+                  onClick={(e) => { e.preventDefault(); go("contact"); }}>
                   Prenota una Call
                 </a>
               </li>
             </ul>
-            <button className="hamburger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu">
+            <button className="hamburger" onClick={() => setOpen(!open)} aria-label="Menu">
               <span /><span /><span />
             </button>
           </div>
         </div>
       </nav>
-      <div className={`mobile-nav${mobileOpen ? " open" : ""}`}>
-        <a href="#problems" onClick={(e) => { e.preventDefault(); scrollTo("problems"); }}>Il Problema</a>
-        <a href="#services" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>Servizi</a>
-        <a href="#process" onClick={(e) => { e.preventDefault(); scrollTo("process"); }}>Come Lavoriamo</a>
-        <a href="#differentiators" onClick={(e) => { e.preventDefault(); scrollTo("differentiators"); }}>Chi Siamo</a>
-        <a href="#contact" className="btn btn-primary" style={{ width: "fit-content", marginTop: "0.5rem" }} onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>
-          Prenota una Call
-        </a>
+      <div className={`mobile-nav${open ? " open" : ""}`}>
+        {[["problems","Il Problema"],["services","Servizi"],["process","Come Lavoriamo"],["differentiators","Chi Siamo"]].map(([id, label]) => (
+          <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); go(id); }}>{label}</a>
+        ))}
+        <a href="#contact" className="btn btn-primary" style={{ width: "fit-content", marginTop: "0.5rem" }}
+          onClick={(e) => { e.preventDefault(); go("contact"); }}>Prenota una Call</a>
       </div>
     </>
   );
 }
 
-function Hero() {
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
+function HeroForm() {
+  const [submitted, setSubmitted] = useState(false);
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    setTimeout(() => setSubmitted(true), 700);
   };
+
+  if (submitted) {
+    return (
+      <div className="hero-form-card">
+        <div className="form-card-header">Gratuita · Risposta in 24 ore</div>
+        <div className="form-card-body">
+          <div className="form-success">
+            <div className="s-icon">✓</div>
+            <h3>Messaggio inviato.</h3>
+            <p>Ti contatteremo entro 24 ore lavorative.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="hero-form-card">
+      <div className="form-card-header">Gratuita · Risposta in 24 ore</div>
+      <div className="form-card-body">
+        <div className="form-card-title">Richiedi una consulenza AI gratuita</div>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="h-name">Nome e Cognome <span className="req">*</span></label>
+            <input type="text" id="h-name" placeholder="Mario Rossi" required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="h-email">Email <span className="req">*</span></label>
+            <input type="email" id="h-email" placeholder="mario@azienda.it" required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="h-sector">Settore</label>
+            <select id="h-sector">
+              <option value="">Seleziona il settore</option>
+              <option>Manifattura</option>
+              <option>Commercio</option>
+              <option>Professionisti</option>
+              <option>Artigianato</option>
+              <option>Servizi</option>
+              <option>Altro</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="h-msg">Cosa vorresti automatizzare?</label>
+            <textarea id="h-msg" placeholder="Es. gestione email clienti, report settimanali, follow-up vendite…" />
+          </div>
+          <button type="submit" className="btn btn-dark" style={{ width: "100%", marginTop: "0.4rem" }}>
+            Prenota la valutazione gratuita
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function Hero() {
+  const stats = [
+    { value: "14+", label: "ore risparmiate a settimana in media" },
+    { value: "3×", label: "velocità nella gestione clienti" },
+    { value: "100%", label: "PMI — nessun tecnicismo" },
+    { value: "30gg", label: "supporto post-lancio incluso" },
+  ];
+
   return (
     <section id="hero">
       <div className="container">
         <div className="hero-grid">
-          <div className="hero-content">
-            <div className="hero-eyebrow reveal">
-              <span>Consulenza AI per PMI · Abruzzo &amp; Marche</span>
-            </div>
-            <h1 className="hero-title reveal reveal-delay-1">
-              L'intelligenza artificiale<br />che fa <em>davvero</em><br />risparmiare tempo.
+          <div>
+            <div className="hero-tag reveal"><span className="dot" />Abruzzo &amp; Marche · PMI Italiane</div>
+            <h1 className="hero-title reveal">
+              Soluzioni AI concrete<br />per la tua azienda.<br />Dal processo al risultato.
             </h1>
-            <p className="hero-sub reveal reveal-delay-2">
-              Basta processi manuali che rubano ore ogni giorno. Affianchiamo le PMI nell'adozione concreta dell'AI — non teoria, non slide, ma sistemi che funzionano da subito.
+            <p className="hero-sub reveal">
+              Affianchiamo le PMI nell'adozione reale dell'intelligenza artificiale. Niente teoria, niente slide — sistemi operativi che fanno risparmiare ore ogni settimana e producono risultati misurabili.
             </p>
-            <div className="hero-ctas reveal reveal-delay-3">
+            <div className="hero-stats reveal">
+              {stats.map((s, i) => (
+                <div key={i} className="stat-item">
+                  <span className="stat-value">{s.value}</span>
+                  <span className="stat-label">{s.label}</span>
+                </div>
+              ))}
+            </div>
+            <div className="hero-ctas reveal">
               <a href="#contact" className="btn btn-primary" onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>
-                Prenota una Call Gratuita
+                Parla con un esperto
               </a>
-              <a href="#services" className="btn btn-outline" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>
-                Scopri i Servizi
+              <a href="#services" className="btn btn-ghost" onClick={(e) => { e.preventDefault(); scrollTo("services"); }}>
+                ↓ Scopri i servizi
               </a>
             </div>
           </div>
-          <div className="hero-visual">
-            <div className="hero-card hero-card-main">
-              <div className="card-label">Ore risparmiate / settimana</div>
-              <div className="card-value">14+</div>
-              <div className="card-desc">media dei clienti dopo l'implementazione</div>
-            </div>
-            <div className="hero-card hero-card-tag">
-              <div className="tag-line"><span className="tag-dot" /><span className="tag-text">Follow-up automatici</span></div>
-              <div className="tag-line"><span className="tag-dot" /><span className="tag-text">Report in tempo reale</span></div>
-              <div className="tag-line"><span className="tag-dot" /><span className="tag-text">Zero formazione tecnica</span></div>
-            </div>
-            <div className="hero-card hero-card-stat">
-              <span className="stat-num">3×</span>
-              <span className="stat-text">velocità nella gestione dei clienti</span>
-            </div>
+          <div className="reveal reveal-delay-2">
+            <HeroForm />
           </div>
         </div>
       </div>
@@ -121,29 +170,41 @@ function Hero() {
   );
 }
 
+function Logos() {
+  const names = ["Manifattura", "E-commerce", "Studi Legali", "Agenzie", "Retail", "B2B"];
+  return (
+    <div id="logos">
+      <div className="container">
+        <p className="logos-label">Settori in cui operiamo</p>
+        <div className="logos-row">
+          {names.map((n) => <div key={n} className="logo-item">{n}</div>)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Problems() {
+  const items = [
+    { icon: "⏱", num: "01", title: "Processi manuali che rubano ore", desc: "Dati inseriti a mano, email riscritte ogni volta, fatture, preventivi, report. Ore che non tornano — e che il tuo team potrebbe usare per fare davvero la differenza." },
+    { icon: "📭", num: "02", title: "Follow-up dimenticati", desc: "Un cliente potenziale ti ha scritto due settimane fa. Non lo hai ricontattato. Non per mancanza di volontà — semplicemente non c'è un sistema che lo ricordi al posto tuo." },
+    { icon: "📊", num: "03", title: "Dati sparsi, decisioni al buio", desc: "Per sapere com'è andata la settimana ci vuole un'ora di Excel. E quando hai finito, i dati sono già vecchi. Decidere senza numeri chiari significa affidarsi all'istinto — troppo spesso." },
+  ];
   return (
     <section id="problems">
       <div className="container">
-        <span className="label reveal">Il Problema</span>
+        <span className="eyebrow reveal">Il Problema</span>
         <h2 className="reveal">Cosa rallenta la tua azienda<br />ogni singolo giorno.</h2>
-        <p className="section-sub reveal">Non è pigrizia, è sistema. Le PMI italiane perdono ore preziose su attività che potrebbero essere automatizzate.</p>
+        <p className="section-sub reveal">Non è colpa tua. Le PMI italiane perdono in media 14 ore a settimana su attività che potrebbero essere completamente automatizzate.</p>
         <div className="problems-grid">
-          <div className="problem-item reveal reveal-delay-1">
-            <div className="problem-number">01</div>
-            <h3 className="problem-title">Processi manuali e ripetitivi</h3>
-            <p className="problem-desc">Dati inseriti a mano, email scritte ogni volta da zero, fatture, preventivi, report. Ore che non tornano indietro — e che il tuo team potrebbe usare per fare davvero la differenza.</p>
-          </div>
-          <div className="problem-item reveal reveal-delay-2">
-            <div className="problem-number">02</div>
-            <h3 className="problem-title">Follow-up dimenticati</h3>
-            <p className="problem-desc">Un cliente potenziale ti ha scritto due settimane fa. Non lo hai ricontattato. Non per mancanza di volontà, ma perché non c'è un sistema che lo ricordi al posto tuo.</p>
-          </div>
-          <div className="problem-item reveal reveal-delay-3">
-            <div className="problem-number">03</div>
-            <h3 className="problem-title">Reportistica lenta e imprecisa</h3>
-            <p className="problem-desc">Vuoi sapere com'è andata questa settimana. Ci vuole un'ora di Excel. E quando hai finito, i dati sono già vecchi. Decidere senza dati chiari significa affidarsi all'istinto — troppo spesso.</p>
-          </div>
+          {items.map((item, i) => (
+            <div key={i} className={`problem-card reveal${i > 0 ? ` reveal-delay-${i}` : ""}`}>
+              <div className="problem-num">{item.num}</div>
+              <span className="problem-icon">{item.icon}</span>
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -151,67 +212,65 @@ function Problems() {
 }
 
 function Services() {
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
-  };
+  const cards = [
+    {
+      badge: "Punto di Partenza",
+      title: "AI Audit",
+      price: "500€",
+      note: "pagamento unico · consegna in 5 giorni",
+      desc: "Analisi approfondita dei tuoi processi. Ti diciamo esattamente dove automatizzare e quanto puoi risparmiare — dati alla mano, nessuna promessa vaga.",
+      items: ["Mappatura completa dei processi", "Identificazione aree ad alto impatto", "Stima ore recuperabili", "Roadmap prioritizzata", "Report scritto + sessione di debrief"],
+      cta: "Inizia dall'Audit",
+      featured: false,
+    },
+    {
+      badge: "Più Richiesto",
+      title: "AI Implementation",
+      price: "1.500€",
+      note: "pagamento unico · 3–4 settimane",
+      desc: "Dall'audit all'implementazione operativa. Configuriamo, integriamo e mettiamo in produzione gli strumenti giusti per il tuo business.",
+      items: ["AI Audit incluso", "Setup e configurazione strumenti", "Integrazione con i tuoi sistemi", "Automazione dei 2–3 processi prioritari", "Formazione team (zero tecnicismo)", "Supporto 30 giorni post-lancio"],
+      cta: "Prenota una Call",
+      featured: true,
+    },
+    {
+      badge: "Su Misura",
+      title: "Software Custom",
+      price: "Su preventivo",
+      note: "progetto personalizzato · tempi variabili",
+      desc: "Quando gli strumenti standard non bastano. Applicazioni AI proprietarie, integrazioni specifiche, sistemi interni su misura.",
+      items: ["Analisi dei requisiti dedicata", "Sviluppo software custom", "Integrazione CRM / ERP", "Dashboard e reportistica real-time", "Manutenzione e aggiornamenti"],
+      cta: "Richiedi Preventivo",
+      featured: false,
+    },
+  ];
+
   return (
     <section id="services">
       <div className="container">
-        <div className="services-header">
-          <div>
-            <span className="label reveal">Servizi</span>
-            <h2 className="reveal">Tre percorsi,<br />un risultato concreto.</h2>
-          </div>
-          <p className="reveal">Ogni progetto parte dall'analisi reale del tuo business. Nessun pacchetto generico, nessuna soluzione uguale per tutti.</p>
+        <div className="section-header">
+          <span className="eyebrow reveal">Servizi</span>
+          <h2 className="reveal">Tre percorsi,<br />un risultato concreto.</h2>
+          <p className="reveal">Ogni progetto parte dall'analisi reale del tuo business. Nessun pacchetto generico.</p>
         </div>
         <div className="services-grid">
-          <div className="service-card reveal">
-            <span className="service-badge">Punto di Partenza</span>
-            <h3>AI Audit</h3>
-            <div className="service-price">500€</div>
-            <div className="service-price-note">pagamento unico · consegna in 5 giorni</div>
-            <p className="service-desc">Analisi approfondita dei tuoi processi aziendali. Ti diciamo esattamente dove puoi automatizzare e quanto puoi risparmiare — dati alla mano.</p>
-            <ul className="service-includes">
-              <li>Mappatura completa dei processi</li>
-              <li>Identificazione delle aree ad alto impatto</li>
-              <li>Stima concreta delle ore recuperabili</li>
-              <li>Roadmap prioritizzata di implementazione</li>
-              <li>Report scritto e sessione di debrief</li>
-            </ul>
-            <a href="#contact" className="btn btn-outline" onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>Inizia dall'Audit</a>
-          </div>
-          <div className="service-card featured reveal reveal-delay-1">
-            <span className="service-badge">Più Richiesto</span>
-            <h3>AI Implementation</h3>
-            <div className="service-price">1.500€</div>
-            <div className="service-price-note">pagamento unico · 3–4 settimane</div>
-            <p className="service-desc">Dall'audit all'implementazione reale. Configuriamo, integriamo e mettiamo in produzione gli strumenti AI adatti al tuo business — e ti formiamo sul loro utilizzo.</p>
-            <ul className="service-includes">
-              <li>AI Audit incluso</li>
-              <li>Setup e configurazione strumenti</li>
-              <li>Integrazione con i tuoi sistemi esistenti</li>
-              <li>Automazione dei 2–3 processi prioritari</li>
-              <li>Formazione del team (nessuna competenza tecnica richiesta)</li>
-              <li>Supporto per 30 giorni post-lancio</li>
-            </ul>
-            <a href="#contact" className="btn btn-accent" onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>Prenota una Call</a>
-          </div>
-          <div className="service-card reveal reveal-delay-2">
-            <span className="service-badge">Su Misura</span>
-            <h3>Software Custom</h3>
-            <div className="service-price">Su preventivo</div>
-            <div className="service-price-note">progetto personalizzato · tempi variabili</div>
-            <p className="service-desc">Quando gli strumenti standard non bastano. Sviluppiamo software su misura per le tue esigenze — applicazioni AI proprietarie, integrazioni specifiche, sistemi interni.</p>
-            <ul className="service-includes">
-              <li>Analisi dei requisiti dedicata</li>
-              <li>Sviluppo software custom</li>
-              <li>Integrazione con CRM, ERP o sistemi esistenti</li>
-              <li>Dashboard e reportistica in tempo reale</li>
-              <li>Manutenzione e aggiornamenti continuativi</li>
-            </ul>
-            <a href="#contact" className="btn btn-outline" onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>Richiedi Preventivo</a>
-          </div>
+          {cards.map((c, i) => (
+            <div key={i} className={`service-card${c.featured ? " featured" : ""} reveal${i > 0 ? ` reveal-delay-${i}` : ""}`}>
+              <span className="service-badge">{c.badge}</span>
+              <h3>{c.title}</h3>
+              <div className="service-price">{c.price}</div>
+              <div className="service-note">{c.note}</div>
+              <p className="service-desc">{c.desc}</p>
+              <ul className="service-items">
+                {c.items.map((item, j) => <li key={j} className="service-item">{item}</li>)}
+              </ul>
+              <a href="#contact" className={`btn ${c.featured ? "btn-ghost" : "btn-ghost"}`}
+                style={c.featured ? { borderColor: "rgba(255,255,255,0.35)", color: "#fff" } : {}}
+                onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>
+                {c.cta}
+              </a>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -219,26 +278,27 @@ function Services() {
 }
 
 function Process() {
+  const steps = [
+    { num: "01", title: "Call di Diagnosi", desc: "30 minuti gratuiti per capire il tuo business, i tuoi processi e le tue priorità. Ti diciamo subito se e come possiamo aiutarti — nessun impegno." },
+    { num: "02", title: "Analisi e Mappa", desc: "Entriamo nel dettaglio dei tuoi flussi. Identifichiamo le inefficienze, valutiamo le opportunità, consegniamo una roadmap con priorità chiare." },
+    { num: "03", title: "Implementazione", desc: "Configuriamo e integriamo gli strumenti. Risultati visibili in settimane, non mesi. Il team viene formato durante il processo, non a fine lavori." },
+    { num: "04", title: "Supporto Continuo", desc: "Non spariaimo dopo il lancio. Monitoriamo i risultati, raccogliamo feedback e ottimizziamo. Il vantaggio competitivo cresce nel tempo." },
+  ];
   return (
     <section id="process">
       <div className="container">
-        <div className="process-header">
-          <span className="label reveal">Come Lavoriamo</span>
+        <div className="section-header">
+          <span className="eyebrow reveal">Come Lavoriamo</span>
           <h2 className="reveal">Dal primo contatto<br />ai risultati in produzione.</h2>
-          <p className="reveal">Un processo in quattro step, lineare e trasparente. Sai sempre dove siamo e cosa succederà dopo.</p>
+          <p className="reveal">Un processo in quattro step, lineare e trasparente. Sai sempre dove siamo e cosa succede dopo.</p>
         </div>
-        <div className="process-timeline">
-          {[
-            { num: "01", title: "Call di Diagnosi", desc: "Una chiamata di 30 minuti per capire il tuo business, i tuoi processi e le tue priorità. Gratuita, senza impegno. Ti diciamo subito se e come possiamo aiutarti." },
-            { num: "02", title: "Analisi e Mappa", desc: "Entriamo nel dettaglio dei tuoi flussi di lavoro. Identifichiamo le inefficienze, valutiamo le opportunità e produciamo una roadmap concreta con le priorità indicate." },
-            { num: "03", title: "Implementazione", desc: "Configuriamo e integriamo gli strumenti. Lavoriamo in modo agile — risultati visibili in settimane, non mesi. Il tuo team viene formato durante il processo, non dopo." },
-            { num: "04", title: "Supporto Continuativo", desc: "Non sparaimo dopo il lancio. Monitoriamo i risultati, raccogliamo il feedback del team e ottimizziamo. Il tuo vantaggio competitivo cresce nel tempo." },
-          ].map((step, i) => (
+        <div className="process-grid">
+          {steps.map((s, i) => (
             <div key={i} className={`process-step reveal${i > 0 ? ` reveal-delay-${i}` : ""}`}>
-              <div className="step-dot" />
-              <div className="step-number">Step {step.num}</div>
-              <h3 className="step-title">{step.title}</h3>
-              <p className="step-desc">{step.desc}</p>
+              <div className="step-num">Step {s.num}</div>
+              <div className="step-line" />
+              <h3>{s.title}</h3>
+              <p>{s.desc}</p>
             </div>
           ))}
         </div>
@@ -248,25 +308,28 @@ function Process() {
 }
 
 function Differentiators() {
+  const items = [
+    { n: "01", title: "Radicati in Abruzzo e Marche", desc: "Siamo qui. Conosciamo il tessuto produttivo locale: artigianato, manifattura, commercio, professionisti. Capiamo le PMI del territorio perché ci viviamo dentro." },
+    { n: "02", title: "Risultati concreti, non teoria", desc: "Zero slide sull'AI del futuro. Zero gergo inutile. Ti diciamo cosa funzionerà per il tuo caso, lo implementiamo e mostriamo i risultati. Subito, in produzione, misurabili." },
+    { n: "03", title: "AI e marketing integrati", desc: "Uniamo automazione e strategia commerciale: follow-up automatici, qualificazione lead, reportistica vendite. La tecnologia al servizio del business, non il contrario." },
+    { n: "04", title: "Zero competenze tecniche richieste", desc: "Il tuo team non diventa programmatore. Selezioniamo strumenti che si usano con piacere, li configuriamo sul vostro flusso e li spieghiamo in italiano semplice." },
+  ];
   return (
     <section id="differentiators">
       <div className="container">
-        <div className="diff-grid">
+        <div className="diff-layout">
           <div className="diff-left">
-            <span className="label reveal">Perché Noi</span>
-            <h2 className="reveal">Non siamo consulenti.<br />Siamo <em>operatori</em>.</h2>
-            <p className="reveal" style={{ marginTop: "1.2rem" }}>La differenza tra chi spiega l'AI in un PowerPoint e chi la mette davvero a lavoro per il tuo business.</p>
+            <span className="eyebrow reveal">Perché Noi</span>
+            <h2 className="reveal">Non siamo consulenti.<br />Siamo operatori.</h2>
+            <p className="reveal" style={{ marginTop: "1rem" }}>
+              La differenza tra chi spiega l'AI in un PowerPoint e chi la mette davvero al lavoro nel tuo business — con risultati che si misurano in ore risparmiate e fatturato.
+            </p>
           </div>
           <div className="diff-right">
-            {[
-              { num: "01", title: "Radicati in Abruzzo e Marche", desc: "Siamo qui. Conosciamo il tessuto produttivo locale — artigianato, manifattura, commercio, professionisti. Capiamo le esigenze delle PMI del territorio perché ci viviamo dentro." },
-              { num: "02", title: "Approccio concreto, non teorico", desc: "Zero slide sull'AI del futuro. Zero gergo inutile. Ti diciamo cosa funzionerà per il tuo caso specifico, lo implementiamo e ti mostriamo i risultati. Subito, in produzione, misurabili." },
-              { num: "03", title: "AI e marketing insieme", desc: "Integriamo l'AI con la strategia commerciale: automazione del follow-up, qualificazione dei lead, reportistica sulle vendite. La tecnologia serve il business, non il contrario." },
-              { num: "04", title: "Nessuna competenza tecnica richiesta", desc: "Il tuo team non deve diventare programmatore. Selezioniamo strumenti che le persone reali usano con piacere, li configuriamo per il vostro flusso e li spieghiamo in italiano semplice." },
-            ].map((item, i) => (
+            {items.map((item, i) => (
               <div key={i} className={`diff-item reveal${i > 0 ? ` reveal-delay-${i}` : ""}`}>
-                <div className="diff-num">{item.num}</div>
-                <div className="diff-content">
+                <div className="diff-n">{item.n}</div>
+                <div>
                   <h4>{item.title}</h4>
                   <p>{item.desc}</p>
                 </div>
@@ -285,64 +348,74 @@ function Contact() {
     e.preventDefault();
     setTimeout(() => setSubmitted(true), 700);
   };
+
   return (
     <section id="contact">
       <div className="container">
-        <span className="label reveal">Contatti</span>
+        <span className="eyebrow reveal">Contatti</span>
         <h2 className="reveal">Parliamoci.<br />La prima call è gratuita.</h2>
-        <p className="section-sub reveal">Niente presentazioni commerciali. Una conversazione onesta su dove sei e dove puoi arrivare.</p>
-        <div className="contact-grid">
-          <div className="reveal">
-            <div className="contact-detail">
-              <div className="contact-detail-label">Agenzia</div>
-              <div className="contact-detail-value">Advanced AI</div>
-            </div>
-            <div className="contact-detail">
-              <div className="contact-detail-label">Territorio</div>
-              <div className="contact-detail-value">Abruzzo · Marche · Tutta Italia da remoto</div>
-            </div>
-            <div className="contact-detail">
-              <div className="contact-detail-label">Email</div>
-              <div className="contact-detail-value">info@advanced-ai.it</div>
-            </div>
-            <div className="contact-detail">
-              <div className="contact-detail-label">Orari</div>
-              <div className="contact-detail-value">Lun–Ven, 9:00–18:00</div>
-            </div>
-            <div className="contact-detail">
-              <div className="contact-detail-label">Prima Call</div>
-              <div className="contact-detail-value">Gratuita · 30 minuti · Senza impegno</div>
+
+        <div className="contact-layout">
+          <div className="contact-left reveal">
+            <p>Niente presentazioni commerciali. Una conversazione onesta su dove sei e dove puoi arrivare con l'AI — in 30 minuti, senza impegno.</p>
+            <div style={{ marginTop: "2.5rem" }}>
+              {[
+                { label: "Agenzia", value: "Advanced AI" },
+                { label: "Territorio", value: "Abruzzo · Marche · Tutta Italia da remoto" },
+                { label: "Email", value: "info@advanced-ai.it" },
+                { label: "Orari", value: "Lun–Ven, 9:00–18:00" },
+                { label: "Prima Call", value: "Gratuita · 30 min · Nessun impegno" },
+              ].map((d) => (
+                <div key={d.label} className="contact-detail">
+                  <div className="cd-label">{d.label}</div>
+                  <div className="cd-value">{d.value}</div>
+                </div>
+              ))}
             </div>
           </div>
+
           <div className="reveal reveal-delay-1">
             {!submitted ? (
-              <form className="contact-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="name">Nome e Cognome</label>
-                  <input type="text" id="name" name="name" placeholder="Mario Rossi" required />
+              <div className="hero-form-card">
+                <div className="form-card-header">Gratuita · Risposta entro 24 ore</div>
+                <div className="form-card-body">
+                  <div className="form-card-title">Invia un messaggio</div>
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                      <label>Nome e Cognome <span className="req">*</span></label>
+                      <input type="text" placeholder="Mario Rossi" required />
+                    </div>
+                    <div className="form-group">
+                      <label>Email <span className="req">*</span></label>
+                      <input type="email" placeholder="mario@azienda.it" required />
+                    </div>
+                    <div className="form-group">
+                      <label>Azienda</label>
+                      <input type="text" placeholder="Rossi S.r.l." />
+                    </div>
+                    <div className="form-group">
+                      <label>Di cosa hai bisogno? <span className="req">*</span></label>
+                      <textarea placeholder="Descrivi il tuo business e cosa vorresti automatizzare…" required />
+                    </div>
+                    <p style={{ fontSize: "0.76rem", color: "var(--muted)", marginBottom: "1rem", lineHeight: "1.6" }}>
+                      Rispondo entro 24 ore lavorative. I tuoi dati non vengono condivisi.
+                    </p>
+                    <button type="submit" className="btn btn-dark" style={{ width: "100%" }}>
+                      Invia il Messaggio →
+                    </button>
+                  </form>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input type="email" id="email" name="email" placeholder="mario@azienda.it" required />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="company">Azienda (opzionale)</label>
-                  <input type="text" id="company" name="company" placeholder="Rossi S.r.l." />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="message">In cosa possiamo aiutarti?</label>
-                  <textarea id="message" name="message" placeholder="Descrivi brevemente il tuo business e il problema che vuoi risolvere..." required />
-                </div>
-                <p className="form-note">Rispondo entro 24 ore lavorative. I tuoi dati non saranno condivisi con terze parti.</p>
-                <button type="submit" className="btn btn-accent" style={{ width: "fit-content" }}>
-                  Invia il Messaggio →
-                </button>
-              </form>
+              </div>
             ) : (
-              <div className="form-success">
-                <div className="success-icon">✓</div>
-                <h3>Messaggio inviato.</h3>
-                <p>Ti contatteremo entro 24 ore lavorative.</p>
+              <div className="hero-form-card">
+                <div className="form-card-header">Gratuita · Risposta entro 24 ore</div>
+                <div className="form-card-body">
+                  <div className="form-success">
+                    <div className="s-icon">✓</div>
+                    <h3>Messaggio inviato.</h3>
+                    <p>Ti contatteremo entro 24 ore lavorative.</p>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -353,10 +426,7 @@ function Contact() {
 }
 
 function Footer() {
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
-  };
+  const go = (id: string) => scrollTo(id);
   return (
     <footer>
       <div className="container">
@@ -369,16 +439,16 @@ function Footer() {
             <h5>Navigazione</h5>
             <ul>
               {[["problems","Il Problema"],["services","Servizi"],["process","Come Lavoriamo"],["differentiators","Chi Siamo"],["contact","Contatti"]].map(([id, label]) => (
-                <li key={id}><a href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollTo(id); }}>{label}</a></li>
+                <li key={id}><a href={`#${id}`} onClick={(e) => { e.preventDefault(); go(id); }}>{label}</a></li>
               ))}
             </ul>
           </div>
           <div className="footer-col">
-            <h5>Recapiti</h5>
+            <h5>Contatti</h5>
             <ul>
               <li><a href="mailto:info@advanced-ai.it">info@advanced-ai.it</a></li>
               <li><a href="#">Abruzzo · Marche</a></li>
-              <li><a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>Prenota una Call</a></li>
+              <li><a href="#contact" onClick={(e) => { e.preventDefault(); go("contact"); }}>Prenota una Call</a></li>
             </ul>
           </div>
         </div>
@@ -397,6 +467,7 @@ export default function App() {
     <>
       <Nav />
       <Hero />
+      <Logos />
       <Problems />
       <Services />
       <Process />
