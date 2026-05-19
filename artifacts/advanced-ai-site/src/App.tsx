@@ -4,10 +4,10 @@ function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll(".reveal");
     const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }),
+      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); }),
       { threshold: 0.07, rootMargin: "0px 0px -20px 0px" }
     );
-    els.forEach((el) => obs.observe(el));
+    els.forEach(el => obs.observe(el));
     return () => obs.disconnect();
   }, []);
 }
@@ -17,7 +17,7 @@ function goto(id: string) {
   if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 68, behavior: "smooth" });
 }
 
-/* ── NAV ── */
+/* ─── NAV ─── */
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -28,7 +28,7 @@ function Nav() {
   }, []);
   const links: [string, string][] = [
     ["valore", "Perché l'AI"],
-    ["approccio", "Il Nostro Approccio"],
+    ["approccio", "Il Metodo"],
     ["aree", "Aree di Intervento"],
     ["perche", "Chi Siamo"],
     ["contatti", "Contatti"],
@@ -39,19 +39,14 @@ function Nav() {
       <nav className={scrolled ? "scrolled" : ""}>
         <div className="container">
           <div className="nav-inner">
-            <div className="nav-logo">
-              <div className="nav-logo-dot" />
-              Advanced AI
-            </div>
+            <div className="nav-logo"><div className="nav-logo-dot" />Advanced AI</div>
             <ul className="nav-links">
               {links.map(([id, lbl]) => (
-                <li key={id}><a href={`#${id}`} onClick={(e) => { e.preventDefault(); go(id); }}>{lbl}</a></li>
+                <li key={id}><a href={`#${id}`} onClick={e => { e.preventDefault(); go(id); }}>{lbl}</a></li>
               ))}
               <li>
                 <a href="#contatti" className="btn btn-navy" style={{ padding: "0.5rem 1.2rem", fontSize: "0.82rem" }}
-                  onClick={(e) => { e.preventDefault(); go("contatti"); }}>
-                  Parla con un esperto
-                </a>
+                  onClick={e => { e.preventDefault(); go("contatti"); }}>Parla con un esperto</a>
               </li>
             </ul>
             <button className="hamburger" onClick={() => setOpen(!open)} aria-label="Menu">
@@ -62,195 +57,151 @@ function Nav() {
       </nav>
       <div className={`mobile-nav${open ? " open" : ""}`}>
         {links.map(([id, lbl]) => (
-          <a key={id} href={`#${id}`} onClick={(e) => { e.preventDefault(); go(id); }}>{lbl}</a>
+          <a key={id} href={`#${id}`} onClick={e => { e.preventDefault(); go(id); }}>{lbl}</a>
         ))}
         <a href="#contatti" className="btn btn-navy" style={{ width: "fit-content", marginTop: "0.5rem" }}
-          onClick={(e) => { e.preventDefault(); go("contatti"); }}>Parla con un esperto</a>
+          onClick={e => { e.preventDefault(); go("contatti"); }}>Parla con un esperto</a>
       </div>
     </>
   );
 }
 
-/* ── HERO VISUAL ── */
-function HeroVisual() {
-  const items = [
-    { icon: "📧", name: "Gestione comunicazioni", sub: "Email, offerte, follow-up", badge: "−4h/sett", type: "green" },
-    { icon: "📊", name: "Reportistica aziendale", sub: "KPI e dati in tempo reale", badge: "Attivo", type: "blue" },
-    { icon: "🔄", name: "Flussi operativi ripetitivi", sub: "Ordini, approvazioni, CRM", badge: "In corso", type: "amber" },
-  ];
+/* ─── HERO ILLUSTRATION ─── */
+function HeroIllustration() {
+  const bars = [28, 45, 35, 55, 42, 60, 50, 72, 65, 88];
   return (
-    <div className="hero-visual">
-      <div className="hv-card reveal d1">
-        <div className="hv-card-header">
-          <span className="hv-card-label">Impatto sull'Efficienza Operativa</span>
-          <span className="hv-live">LIVE</span>
-        </div>
-        <div className="hv-metrics">
-          <div className="hv-metric">
-            <div className="hv-val">−40%</div>
-            <div className="hv-label">costi operativi ridotti</div>
+    <div className="hero-illustration reveal d3">
+      <div className="hero-ill-inner">
+        {/* mini nav bar */}
+        <div className="ill-topbar">
+          <div className="ill-logo">Advanced AI</div>
+          <div className="ill-nav-items">
+            {["Overview", "Strategia", "Analisi", "Report"].map((n, i) => (
+              <span key={n} className={`ill-nav-item${i === 1 ? " active" : ""}`}>{n}</span>
+            ))}
           </div>
-          <div className="hv-metric">
-            <div className="hv-val blue">14h</div>
-            <div className="hv-label">ore recuperate/settimana</div>
-          </div>
+          <div style={{ width: "80px" }} />
         </div>
-        <div className="hv-bar-row">
-          {[["Efficienza processi","82%"],["Riduzione errori","91%"],["Soddisfazione team","78%"]].map(([lbl, pct]) => (
-            <div key={lbl} style={{ marginBottom: "0.7rem" }}>
-              <div className="hv-bar-label"><span>{lbl}</span><span>{pct}</span></div>
-              <div className="hv-bar-track"><div className="hv-bar-fill" style={{ width: pct }} /></div>
+
+        {/* cards row */}
+        <div className="ill-cards-row">
+          {[
+            { label: "Efficienza operativa", val: "+82%", sub: "vs. 3 mesi fa", badge: "▲ 12%", type: "up" },
+            { label: "Ore recuperate", val: "14h", sub: "ogni settimana", badge: "▲ 6h", type: "up" },
+            { label: "Costi operativi", val: "−40%", sub: "riduzione media", badge: "↓ ottimizzato", type: "up" },
+          ].map((m, i) => (
+            <div key={i} className="ill-metric-card">
+              <div className="im-label">{m.label}</div>
+              <div className="im-val">{m.val}</div>
+              <div className="im-sub">{m.sub}</div>
+              <span className={`im-badge badge-${m.type}`}>{m.badge}</span>
             </div>
           ))}
-        </div>
-      </div>
-      <div className="hv-card reveal d2">
-        <div className="hv-card-header">
-          <span className="hv-card-label">Aree di Ottimizzazione Attive</span>
-        </div>
-        <div className="hv-item-list">
-          {items.map((item, i) => (
-            <div key={i} className="hv-item">
-              <div className="hv-item-icon">{item.icon}</div>
-              <div className="hv-item-text">
-                <div className="hv-item-name">{item.name}</div>
-                <div className="hv-item-sub">{item.sub}</div>
-              </div>
-              <span className={`hv-item-badge badge-${item.type}`}>{item.badge}</span>
+          <div className="ill-chart-card">
+            <div className="ic-header">
+              <span className="ic-title">Performance AI — ultimi 10 cicli</span>
+              <span className="ic-badge">LIVE</span>
             </div>
-          ))}
+            <div className="ic-bars">
+              {bars.map((h, i) => <div key={i} className={`ic-bar${i >= 6 ? " hi" : ""}`} style={{ height: `${h}%` }} />)}
+            </div>
+          </div>
         </div>
+
+        <div className="ill-horizon" />
       </div>
     </div>
   );
 }
 
-/* ── HERO ── */
+/* ─── HERO ─── */
 function Hero() {
   return (
     <section id="hero">
-      <div className="hero-glow" aria-hidden>
-        <div className="glow-blob glow-blob-1" />
-        <div className="glow-blob glow-blob-2" />
-      </div>
-      <div className="container">
-        <div className="hero-grid">
-          <div>
-            <div className="tag-pill reveal">
-              <span className="tag-dot" />
-              Consulenza AI · Abruzzo &amp; Marche · PMI Italiane
-            </div>
-            <h1 className="hero-h1 reveal d1">
-              L'intelligenza artificiale<br />
-              <span className="display-italic gradient-text">al servizio<br />della tua impresa.</span>
-            </h1>
-            <p className="hero-lead reveal d2">
-              Non vendiamo software. Affianchiamo le imprese di Abruzzo e Marche nell'identificare dove e come l'intelligenza artificiale può creare valore reale — che si traduca in{" "}
-              <strong style={{ color: "var(--navy)", fontWeight: 600 }}>ore recuperate</strong>,{" "}
-              <strong style={{ color: "var(--navy)", fontWeight: 600 }}>costi ridotti</strong> o{" "}
-              <strong style={{ color: "var(--navy)", fontWeight: 600 }}>nuove opportunità di crescita</strong>.
-            </p>
-            <div className="value-pills reveal d2">
-              <div className="vpill"><span className="vpill-icon">⏱</span>Recupero ore produttive</div>
-              <div className="vpill"><span className="vpill-icon">💶</span>Riduzione costi operativi</div>
-              <div className="vpill"><span className="vpill-icon">📈</span>Nuove opportunità di crescita</div>
-            </div>
-            <div className="hero-ctas reveal d3">
-              <a href="#contatti" className="btn btn-navy" onClick={(e) => { e.preventDefault(); goto("contatti"); }}>
-                Richiedi una consulenza gratuita
-              </a>
-              <a href="#valore" className="btn btn-outline" onClick={(e) => { e.preventDefault(); goto("valore"); }}>
-                Scopri il metodo
-              </a>
-            </div>
-            <p className="hero-note reveal d3">Prima consulenza gratuita · Nessun impegno · Risposta entro 24 ore</p>
-          </div>
-          <HeroVisual />
+      <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div className="hero-badge reveal">
+          <span className="badge-dot" />
+          Consulenza AI per Imprese · Abruzzo &amp; Marche
         </div>
+        <h1 className="hero-h1 reveal d1">
+          L'intelligenza artificiale<br />
+          <span className="serif-italic gradient-text">che crea valore reale<br />per la tua impresa.</span>
+        </h1>
+        <p className="hero-lead reveal d2">
+          Affianchiamo le imprese di Abruzzo e Marche nell'identificare dove e come l'AI può ridurre i costi,
+          recuperare ore produttive e aprire nuove opportunità di crescita — con metodo e risultati misurabili.
+        </p>
+        <div className="hero-ctas reveal d2">
+          <a href="#contatti" className="btn btn-navy btn-lg" onClick={e => { e.preventDefault(); goto("contatti"); }}>
+            Richiedi la consulenza gratuita →
+          </a>
+          <a href="#valore" className="btn btn-outline btn-lg" onClick={e => { e.preventDefault(); goto("valore"); }}>
+            Scopri il metodo
+          </a>
+        </div>
+        <p className="hero-note reveal d2">Prima consulenza gratuita · Nessun impegno · Risposta entro 24 ore</p>
+        <HeroIllustration />
       </div>
     </section>
   );
 }
 
-/* ── LOGOS ── */
+/* ─── LOGOS ─── */
 function Logos() {
-  const sectors = ["Manifattura", "Artigianato", "Studi Professionali", "Retail", "Distribuzione", "Agenzie", "Servizi B2B"];
+  const sectors = ["Manifattura", "Artigianato", "Studi Professionali", "Retail", "Distribuzione B2B", "Agenzie", "Servizi alle Imprese"];
   return (
     <div id="logos">
       <div className="container">
         <p className="logos-label">Settori in cui operiamo · Abruzzo, Marche e tutta Italia</p>
         <div className="logos-row">
-          {sectors.map((s) => <div key={s} className="logo-item">{s}</div>)}
+          {sectors.map(s => <div key={s} className="logo-item">{s}</div>)}
         </div>
       </div>
     </div>
   );
 }
 
-/* ── VALORE (why AI) ── */
+/* ─── VALORE ─── */
 function Valore() {
-  const cards = [
-    {
-      icon: "⏱",
-      title: "Recupera ore produttive ogni settimana",
-      text: "Ogni azienda ha processi che consumano ore: ricerca di informazioni, produzione di report, gestione comunicazioni, aggiornamento dati. L'intelligenza artificiale li assorbe — restituendoti tempo per le attività che generano davvero valore.",
-    },
-    {
-      icon: "💶",
-      title: "Riduci i costi operativi in modo strutturale",
-      text: "Meno errori, meno sprechi, meno lavoro manuale ridondante. L'AI non sostituisce le persone — le libera da compiti a basso valore. Il risultato è un'operatività più snella, con costi fissi più bassi e margini più sani.",
-    },
-    {
-      icon: "📈",
-      title: "Apri nuove opportunità di business",
-      text: "L'AI non è solo efficienza. È anche capacità di analisi predittiva, personalizzazione dell'offerta, identificazione di mercati inesplorati. Le imprese che la adottano oggi costruiscono un vantaggio competitivo che domani sarà difficile da colmare.",
-    },
-    {
-      icon: "🧩",
-      title: "Prendi decisioni migliori, più velocemente",
-      text: "Dati dispersi, report lenti, visibilità opaca. L'AI integra le informazioni esistenti, le organizza e le presenta in modo chiaro — così puoi decidere con più certezza, in meno tempo, basandoti su fatti reali.",
-    },
+  const pillars = [
+    { icon: "⏱", title: "Recupera ore produttive", text: "Ogni impresa dedica ore a processi che potrebbero essere gestiti in modo più efficiente. Identifichiamo con precisione dove il tuo team può smettere di fare il lavoro che non crea valore — e concentrarsi su quello che conta." },
+    { icon: "💶", title: "Riduci i costi in modo strutturale", text: "Meno ridondanze, meno errori, meno sprechi. L'intelligenza artificiale non sostituisce le persone: le libera da attività a basso rendimento, producendo un'operatività più snella con margini più sani." },
+    { icon: "📈", title: "Apri nuovi margini di crescita", text: "L'AI non è solo efficienza: è capacità di leggere il mercato, personalizzare l'offerta e anticipare le esigenze dei clienti. Le imprese che la adottano oggi costruiscono un vantaggio competitivo difficile da colmare domani." },
   ];
-
   return (
     <section id="valore">
       <div className="container">
-        <div className="section-header reveal">
-          <span className="eyebrow">Perché Adottare l'AI Oggi</span>
-          <h2>Due leve, un obiettivo:<br /><span className="gradient-text">crescita sostenibile.</span></h2>
-          <p>
-            Le imprese più competitive di Abruzzo e Marche non stanno aspettando. Stanno identificando — con metodo — dove l'intelligenza artificiale può ridurre i costi e dove può aprire nuovi mercati.
-          </p>
-        </div>
-
-        <div className="valore-card primary reveal">
-          <div className="vc-primary-inner">
-            <div>
-              <div className="vc-icon" style={{ fontSize: "1.5rem" }}>🎯</div>
-              <h3 style={{ color: "white", fontSize: "1.4rem", marginBottom: "0.8rem" }}>
-                L'AI che crea valore<br />per la tua specifica impresa.
-              </h3>
-              <p style={{ color: "rgba(255,255,255,0.6)", maxWidth: "340px" }}>
-                Non esistono soluzioni universali. Ogni impresa ha processi, sfide e opportunità diverse. Il nostro metodo parte sempre dall'analisi profonda del tuo contesto specifico — prima di proporre qualsiasi soluzione.
-              </p>
-            </div>
-            <div className="vc-primary-stats">
-              {[["−40%","costi operativi in media"],["14h","recuperate ogni settimana"],["90gg","per misurare risultati concreti"],["100%","analisi personalizzata"]].map(([v, l]) => (
-                <div key={l}>
-                  <div className="vc-stat-val">{v}</div>
-                  <div className="vc-stat-lbl">{l}</div>
-                </div>
-              ))}
-            </div>
+        <div className="value-intro">
+          <div className="vi-left">
+            <span className="eyebrow reveal">Perché l'AI Crea Valore</span>
+            <h2 className="reveal">
+              Due leve,<br />
+              <span className="serif-italic gradient-text">un obiettivo.</span>
+            </h2>
+            <p className="reveal" style={{ marginTop: "0.8rem" }}>
+              Le imprese più competitive non stanno aspettando. Stanno identificando — con metodo — dove l'intelligenza artificiale riduce i costi e dove apre nuove opportunità. Noi le affianchiamo in questo percorso.
+            </p>
+          </div>
+          <div className="vi-right">
+            {[
+              { val: "−40%", lbl: "costi operativi ridotti in media", accent: false },
+              { val: "14h", lbl: "ore recuperate ogni settimana", accent: true },
+              { val: "90gg", lbl: "per misurare risultati concreti", accent: false },
+              { val: "100%", lbl: "analisi personalizzata per impresa", accent: false },
+            ].map((k, i) => (
+              <div key={i} className={`kpi-card reveal${i > 0 ? ` d${i}` : ""}`}>
+                <div className={`kpi-val${k.accent ? " accent" : ""}`}>{k.val}</div>
+                <div className="kpi-lbl">{k.lbl}</div>
+              </div>
+            ))}
           </div>
         </div>
-
-        <div className="valore-grid" style={{ marginTop: "1rem" }}>
-          {cards.map((c, i) => (
-            <div key={i} className={`valore-card reveal${i > 0 ? ` d${i > 3 ? 3 : i}` : ""}`}>
-              <div className="vc-icon">{c.icon}</div>
-              <h3>{c.title}</h3>
-              <p>{c.text}</p>
+        <div className="value-pillars">
+          {pillars.map((p, i) => (
+            <div key={i} className={`pillar-card reveal${i > 0 ? ` d${i}` : ""}`}>
+              <span className="pillar-icon">{p.icon}</span>
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
             </div>
           ))}
         </div>
@@ -259,56 +210,31 @@ function Valore() {
   );
 }
 
-/* ── APPROCCIO ── */
+/* ─── APPROCCIO ─── */
 function Approccio() {
   const steps = [
-    {
-      num: "01",
-      title: "Diagnosi del Contesto Aziendale",
-      text: "Prima di qualsiasi proposta, ascoltiamo. Analizziamo i processi, i punti critici e gli obiettivi strategici della tua impresa. Identifichiamo le aree dove l'intelligenza artificiale può creare il maggior impatto — positivo e misurabile.",
-    },
-    {
-      num: "02",
-      title: "Strategia AI su Misura",
-      text: "Costruiamo una roadmap concreta e prioritizzata: cosa fare, in che ordine, con quali strumenti. Non teoria, non slide generiche — un piano operativo calibrato sulla tua realtà, sui tuoi tempi e sulle tue risorse.",
-    },
-    {
-      num: "03",
-      title: "Implementazione e Accompagnamento",
-      text: "Affianchiamo il team nella fase di adozione: selezione degli strumenti, configurazione, integrazione con i sistemi esistenti e formazione delle persone. Il nostro obiettivo è che l'AI diventi parte naturale del tuo modo di lavorare.",
-    },
-    {
-      num: "04",
-      title: "Monitoraggio dei Risultati",
-      text: "L'adozione dell'AI è un percorso, non un evento. Misuriamo i risultati, raccogliamo i feedback e ottimizziamo continuamente. Ogni progetto genera conoscenza che rafforza il vantaggio competitivo nel tempo.",
-    },
+    { n: "01", title: "Diagnosi del contesto aziendale", text: "Ascoltiamo prima di proporre. Analizziamo i processi, i punti critici e gli obiettivi strategici della tua impresa. Individuiamo dove l'intelligenza artificiale può generare il maggior impatto misurabile." },
+    { n: "02", title: "Strategia AI personalizzata", text: "Costruiamo una roadmap operativa e prioritizzata: cosa fare, in che ordine, con quali strumenti. Un piano calibrato sulla tua realtà — non una soluzione preconfezionata uguale per tutti." },
+    { n: "03", title: "Implementazione e accompagnamento", text: "Affianchiamo il team nella fase di adozione: selezione degli strumenti, configurazione, integrazione e formazione. L'obiettivo è che l'AI diventi parte naturale del modo di lavorare." },
+    { n: "04", title: "Monitoraggio e ottimizzazione", text: "Misuriamo i risultati, raccogliamo feedback e ottimizziamo nel tempo. Ogni progetto genera conoscenza che rafforza il vantaggio competitivo — in modo crescente e sostenibile." },
   ];
   return (
     <section id="approccio">
       <div className="container">
-        <div className="approach-layout">
+        <div className="approach-wrap">
           <div className="approach-left">
             <span className="eyebrow reveal">Il Metodo</span>
-            <h2 className="reveal">
-              Consulenza AI<br />
-              <span className="display-italic gradient-text">con metodo e misura.</span>
-            </h2>
-            <p className="reveal" style={{ marginTop: "0.8rem" }}>
-              Ogni impresa è diversa. Il nostro processo parte sempre dall'ascolto — non da soluzioni preconfezionate. L'intelligenza artificiale viene introdotta dove crea valore reale, nei tempi giusti e con il coinvolgimento del team.
-            </p>
-            <a href="#contatti" className="btn btn-navy reveal d1" style={{ marginTop: "2.4rem" }}
-              onClick={(e) => { e.preventDefault(); goto("contatti"); }}>
-              Inizia la diagnosi gratuita
-            </a>
+            <h2 className="reveal">Consulenza AI<br /><span className="serif-italic gradient-text">con metodo e misura.</span></h2>
+            <p className="reveal" style={{ marginTop: "0.8rem" }}>Ogni percorso parte dall'ascolto reale. L'intelligenza artificiale viene introdotta dove crea valore concreto, nei tempi giusti e con il coinvolgimento pieno del team.</p>
+            <div className="approach-cta reveal d1">
+              <a href="#contatti" className="btn btn-navy" onClick={e => { e.preventDefault(); goto("contatti"); }}>Inizia con una call gratuita</a>
+            </div>
           </div>
-          <div className="approach-steps">
+          <div className="steps-list">
             {steps.map((s, i) => (
-              <div key={i} className={`approach-step reveal${i > 0 ? ` d${i > 3 ? 3 : i}` : ""}`}>
-                <div className="as-num">{s.num}</div>
-                <div>
-                  <h3>{s.title}</h3>
-                  <p>{s.text}</p>
-                </div>
+              <div key={i} className={`step-item reveal${i > 0 ? ` d${i}` : ""}`}>
+                <div><div className="step-num">{s.n}</div></div>
+                <div><h3>{s.title}</h3><p>{s.text}</p></div>
               </div>
             ))}
           </div>
@@ -318,31 +244,29 @@ function Approccio() {
   );
 }
 
-/* ── AREAS ── */
+/* ─── AREE ─── */
 function Aree() {
   const areas = [
-    { icon: "⚙️", num: "01", title: "Efficienza Operativa", text: "Processi interni ridondanti, flussi di approvazione lenti, gestione documentale disorganizzata. L'AI analizza il ciclo operativo e identifica dove ridurre attività a basso valore senza perdere qualità o controllo." },
-    { icon: "💬", num: "02", title: "Relazione con il Cliente", text: "Dalla qualificazione dei contatti al post-vendita: l'AI supporta il ciclo commerciale con risposta rapida, personalizzazione dell'offerta e follow-up strutturato — senza che il team perda il controllo della relazione." },
-    { icon: "📊", num: "03", title: "Analisi e Supporto alle Decisioni", text: "Dati sparsi, report statici, KPI aggiornati con settimane di ritardo. L'AI integra le fonti informative esistenti e produce visibilità in tempo reale — per decidere con più certezza e meno incertezza." },
-    { icon: "🏭", num: "04", title: "Produzione e Supply Chain", text: "Pianificazione della produzione, gestione fornitori, previsione della domanda. L'AI introduce previsioni più accurate, riduce gli sprechi e migliora la reattività ai cambiamenti di mercato." },
-    { icon: "📝", num: "05", title: "Gestione della Conoscenza Aziendale", text: "Procedure non documentate, know-how non trasferibile, formazione lenta. L'AI aiuta a strutturare e rendere accessibile la conoscenza interna — riducendo la dipendenza da singole persone." },
-    { icon: "🚀", num: "06", title: "Innovazione di Prodotto e Servizio", text: "L'AI non è solo efficienza interna. Può aprire nuovi modelli di offerta, personalizzare l'esperienza del cliente o generare differenziazione competitiva — identificando opportunità che la visione umana da sola fatica a cogliere." },
+    { icon: "⚙️", n: "01", title: "Efficienza Operativa", text: "Processi interni ridondanti, flussi lenti, gestione documentale dispersa. Identifichiamo dove ridurre attività a basso valore senza perdere qualità né controllo." },
+    { icon: "💬", n: "02", title: "Relazione con il Cliente", text: "Dalla qualificazione dei contatti al post-vendita: l'AI supporta il ciclo commerciale con risposta rapida e personalizzazione dell'offerta, senza sottrarre il controllo della relazione." },
+    { icon: "📊", n: "03", title: "Analisi e Decisioni", text: "Dati sparsi, report statici, KPI in ritardo. L'AI integra le fonti informative esistenti e produce visibilità in tempo reale — per decidere con più certezza." },
+    { icon: "🏭", n: "04", title: "Produzione e Logistica", text: "Pianificazione, gestione fornitori, previsione della domanda. L'AI introduce accuratezza nelle previsioni, riduce gli sprechi e migliora la reattività ai cambiamenti di mercato." },
+    { icon: "📝", n: "05", title: "Gestione della Conoscenza", text: "Know-how non documentato, formazione lenta, dipendenza da singole figure. L'AI aiuta a strutturare e rendere accessibile la conoscenza interna aziendale." },
+    { icon: "🚀", n: "06", title: "Innovazione e Nuovi Mercati", text: "L'AI può aprire nuovi modelli di offerta, personalizzare l'esperienza cliente e identificare opportunità che la visione tradizionale fatica a cogliere in tempo." },
   ];
   return (
     <section id="aree">
       <div className="container">
-        <div className="section-header reveal">
-          <span className="eyebrow">Aree di Intervento</span>
-          <h2>Dove l'intelligenza artificiale<br />crea valore per la tua impresa.</h2>
-          <p>
-            Non esiste un'area aziendale immune al potenziale dell'AI. Queste sono le sei aree dove interveniamo con maggiore frequenza — ma ogni progetto comincia dall'analisi della tua situazione specifica.
-          </p>
+        <div className="section-header centered reveal">
+          <span className="eyebrow">Dove Interveniamo</span>
+          <h2>Le sei aree dove l'AI<br /><span className="gradient-text">trasforma le imprese.</span></h2>
+          <p>Non esiste un'area aziendale immune al potenziale dell'intelligenza artificiale. Ogni progetto comincia dall'analisi della tua situazione specifica — non da categorie predefinite.</p>
         </div>
         <div className="areas-grid">
           {areas.map((a, i) => (
-            <div key={i} className={`area-card reveal${i > 0 ? ` d${i > 3 ? 3 : i}` : ""}`}>
-              <div className="area-num">{a.num}</div>
-              <div className="area-icon">{a.icon}</div>
+            <div key={i} className={`area-cell reveal${i > 0 ? ` d${Math.min(i, 3)}` : ""}`}>
+              <div className="area-num">{a.n}</div>
+              <span className="area-icon">{a.icon}</span>
               <h3>{a.title}</h3>
               <p>{a.text}</p>
             </div>
@@ -353,61 +277,32 @@ function Aree() {
   );
 }
 
-/* ── DIFFERENTIATORS ── */
+/* ─── PERCHE ─── */
 function Perche() {
   const items = [
-    {
-      n: "01",
-      title: "Radicati in Abruzzo e Marche",
-      text: "Conosciamo il tessuto imprenditoriale locale: manifattura, artigianato avanzato, commercio, distribuzione, studi professionali. Non siamo una società esterna — operiamo qui, condividiamo le stesse sfide.",
-    },
-    {
-      n: "02",
-      title: "Approccio strategico, non tecnico",
-      text: "Non partiamo dalla tecnologia. Partiamo dal tuo obiettivo di business — ridurre un costo, recuperare tempo, aprire un mercato — e identifichiamo se e come l'AI è lo strumento giusto.",
-    },
-    {
-      n: "03",
-      title: "Risultati misurabili, non promesse vaghe",
-      text: "Ogni progetto definisce in anticipo le metriche di successo: ore risparmiate, costi ridotti, processi eliminati. I risultati si tracciano, si documentano e si confrontano — con trasparenza completa.",
-    },
-    {
-      n: "04",
-      title: "Adozione reale, non formazione teorica",
-      text: "Il successo di un progetto AI si misura sull'adozione quotidiana del team. Lavoriamo a stretto contatto con le persone, in linguaggio semplice, perché la tecnologia diventi uno strumento familiare — non un ostacolo.",
-    },
-    {
-      n: "05",
-      title: "Percorso progressivo, investimento graduale",
-      text: "Non chiediamo di cambiare tutto subito. Costruiamo un percorso di adozione progressivo, che produce risultati nelle prime settimane e cresce nel tempo — senza stravolgere l'operatività esistente.",
-    },
+    { title: "Radicati in Abruzzo e Marche", text: "Conosciamo il tessuto imprenditoriale locale: manifattura, artigianato, commercio, distribuzione, studi professionali. Non arriviamo dall'esterno — operiamo qui ogni giorno." },
+    { title: "Approccio strategico, non tecnico", text: "Non partiamo dalla tecnologia ma dall'obiettivo. Identifichiamo se e come l'AI è lo strumento giusto — e proponiamo solo quello che crea valore reale nel tuo contesto specifico." },
+    { title: "Risultati documentati, non promesse", text: "Ogni progetto definisce in anticipo le metriche di successo. I risultati si tracciano, si documentano e si confrontano — con piena trasparenza e nessuna ambiguità." },
+    { title: "Adozione reale, non formazione teorica", text: "Il successo si misura sull'uso quotidiano del team. Lavoriamo a stretto contatto con le persone, in linguaggio comprensibile, perché la tecnologia diventi uno strumento familiare." },
+    { title: "Percorso progressivo, investimento controllato", text: "Non chiediamo di cambiare tutto in una volta. Costruiamo un percorso di adozione graduale che produce risultati nelle prime settimane e cresce in modo sostenibile nel tempo." },
   ];
   return (
     <section id="perche">
       <div className="container">
-        <div className="perche-layout">
+        <div className="perche-wrap">
           <div className="perche-left">
             <span className="eyebrow reveal">Perché Advanced AI</span>
-            <h2 className="reveal">
-              Un advisor AI<br />
-              <span className="display-italic gradient-text">che parla la tua lingua.</span>
-            </h2>
-            <p className="reveal" style={{ marginTop: "0.8rem" }}>
-              Affianchiamo le imprese come un partner strategico — non come un fornitore di soluzioni. La nostra priorità è che ogni euro investito nell'AI si traduca in un ritorno misurabile e sostenibile.
-            </p>
-            <a href="#contatti" className="btn btn-blue reveal d1"
-              onClick={(e) => { e.preventDefault(); goto("contatti"); }}>
-              Parla con un esperto →
-            </a>
+            <h2 className="reveal">Un advisor<br /><span className="serif-italic gradient-text">che parla la tua lingua.</span></h2>
+            <p className="reveal" style={{ marginTop: "0.8rem" }}>Affianchiamo le imprese come un partner strategico. La nostra priorità è che ogni investimento si traduca in un ritorno misurabile, sostenibile e reale.</p>
+            <div className="perche-cta reveal d1">
+              <a href="#contatti" className="btn btn-blue" onClick={e => { e.preventDefault(); goto("contatti"); }}>Parla con un esperto →</a>
+            </div>
           </div>
-          <div className="perche-items">
+          <div className="perche-list">
             {items.map((item, i) => (
-              <div key={i} className={`perche-item reveal${i > 0 ? ` d${i > 4 ? 4 : i}` : ""}`}>
-                <div className="pi-n">{item.n}</div>
-                <div>
-                  <h4>{item.title}</h4>
-                  <p>{item.text}</p>
-                </div>
+              <div key={i} className={`perche-item reveal${i > 0 ? ` d${Math.min(i, 3)}` : ""}`}>
+                <div><div className="pi-num">{String(i + 1).padStart(2, "0")}</div></div>
+                <div><h4>{item.title}</h4><p>{item.text}</p></div>
               </div>
             ))}
           </div>
@@ -417,108 +312,23 @@ function Perche() {
   );
 }
 
-/* ── CONTACT FORM ── */
-function FormCard() {
-  const [sent, setSent] = useState(false);
-  const handle = (e: FormEvent) => { e.preventDefault(); setTimeout(() => setSent(true), 700); };
-  if (sent) {
-    return (
-      <div className="form-card">
-        <div className="fc-header">
-          <span className="fc-header-title">Consulenza Gratuita</span>
-          <span className="fc-header-badge">Risposta entro 24h</span>
-        </div>
-        <div className="fc-body">
-          <div className="fsuccess">
-            <div className="si">✓</div>
-            <h3>Messaggio ricevuto.</h3>
-            <p>Ti contatteremo entro 24 ore lavorative per concordare la prima call conoscitiva.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+/* ─── CTA BAND ─── */
+function CtaBand() {
   return (
-    <div className="form-card">
-      <div className="fc-header">
-        <span className="fc-header-title">Prima Consulenza Gratuita</span>
-        <span className="fc-header-badge">Risposta entro 24h</span>
-      </div>
-      <div className="fc-body">
-        <div className="fc-title">Raccontaci la tua sfida.</div>
-        <form onSubmit={handle}>
-          <div className="fgroup">
-            <label>Nome e Cognome <span>*</span></label>
-            <input type="text" placeholder="Mario Rossi" required />
-          </div>
-          <div className="fgroup">
-            <label>Email <span>*</span></label>
-            <input type="email" placeholder="mario@azienda.it" required />
-          </div>
-          <div className="fgroup">
-            <label>Azienda</label>
-            <input type="text" placeholder="Rossi S.r.l." />
-          </div>
-          <div className="fgroup">
-            <label>Settore</label>
-            <select>
-              <option value="">Seleziona il settore</option>
-              <option>Manifattura e Industria</option>
-              <option>Commercio e Retail</option>
-              <option>Artigianato</option>
-              <option>Studio Professionale</option>
-              <option>Agenzia</option>
-              <option>Distribuzione e Logistica</option>
-              <option>Servizi alle Imprese</option>
-              <option>Altro</option>
-            </select>
-          </div>
-          <div className="fgroup">
-            <label>Qual è la sfida principale che vorresti affrontare? <span>*</span></label>
-            <textarea placeholder="Es. troppo tempo dedicato a processi interni, difficoltà a gestire la relazione con i clienti, decisioni prese senza dati sufficienti…" required />
-          </div>
-          <p className="fnote">Prima consulenza gratuita e senza impegno. I tuoi dati non vengono condivisi con terze parti.</p>
-          <button type="submit" className="btn btn-navy" style={{ width: "100%", padding: "0.9rem" }}>
-            Invia la richiesta di consulenza →
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-/* ── CONTACT ── */
-function Contatti() {
-  return (
-    <section id="contatti">
+    <section id="cta-band">
       <div className="container">
-        <div className="contact-layout">
-          <div className="contact-left reveal">
-            <span className="eyebrow">Consulenza AI per Imprese</span>
-            <h2>
-              Inizia con una<br />
-              <span className="display-italic gradient-text">conversazione onesta.</span>
-            </h2>
-            <p style={{ marginTop: "0.8rem" }}>
-              Non siamo qui per venderti una soluzione. Siamo qui per capire la tua impresa, le tue sfide reali e se — e come — l'intelligenza artificiale può davvero aiutarti. La prima consulenza è gratuita e senza impegno.
-            </p>
-            <div style={{ marginTop: "2.2rem" }}>
-              {[
-                ["Agenzia", "Advanced AI"],
-                ["Dove operiamo", "Abruzzo · Marche · Tutta Italia (anche da remoto)"],
-                ["Email", "info@advanced-ai.it"],
-                ["Prima consulenza", "Gratuita · 30–45 minuti · Nessun impegno"],
-                ["Risposta", "Entro 24 ore lavorative"],
-              ].map(([lbl, val]) => (
-                <div key={lbl} className="cdetail">
-                  <div className="cd-lbl">{lbl}</div>
-                  <div className="cd-val">{val}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="reveal d1">
-            <FormCard />
+        <div className="cta-band-inner reveal">
+          <span className="eyebrow" style={{ color: "rgba(255,255,255,0.5)", justifyContent: "center", marginBottom: "1.4rem" }}>Consulenza AI Gratuita</span>
+          <h2 style={{ color: "white", marginBottom: "0.8rem" }}>
+            Inizia con una conversazione.<br />
+            <span style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontWeight: 400, fontSize: "0.95em", color: "rgba(255,255,255,0.7)" }}>
+              Senza impegno, senza tecnicismi.
+            </span>
+          </h2>
+          <p>Un incontro di 30–45 minuti per capire la tua impresa, le tue sfide e se — e come — l'intelligenza artificiale può davvero aiutarti a crescere.</p>
+          <div className="cta-band-btns">
+            <a href="#contatti" className="btn btn-white btn-lg" onClick={e => { e.preventDefault(); goto("contatti"); }}>Prenota la call gratuita →</a>
+            <a href="#valore" className="btn btn-white-outline btn-lg" onClick={e => { e.preventDefault(); goto("valore"); }}>Scopri il metodo</a>
           </div>
         </div>
       </div>
@@ -526,7 +336,67 @@ function Contatti() {
   );
 }
 
-/* ── FOOTER ── */
+/* ─── CONTACT FORM ─── */
+function FormCard() {
+  const [sent, setSent] = useState(false);
+  const handle = (e: FormEvent) => { e.preventDefault(); setTimeout(() => setSent(true), 700); };
+  if (sent) {
+    return (
+      <div className="form-card">
+        <div className="fc-header"><span className="fc-title-small">Consulenza Gratuita</span><span className="fc-badge">Risposta entro 24h</span></div>
+        <div className="fc-body"><div className="fsuccess"><div className="si">✓</div><h3>Messaggio ricevuto.</h3><p>Ti contatteremo entro 24 ore lavorative.</p></div></div>
+      </div>
+    );
+  }
+  return (
+    <div className="form-card">
+      <div className="fc-header"><span className="fc-title-small">Prima Consulenza Gratuita</span><span className="fc-badge">Risposta entro 24h</span></div>
+      <div className="fc-body">
+        <div className="fc-headline">Raccontaci la tua sfida.</div>
+        <form onSubmit={handle}>
+          <div className="fgroup"><label>Nome e Cognome <span>*</span></label><input type="text" placeholder="Mario Rossi" required /></div>
+          <div className="fgroup"><label>Email <span>*</span></label><input type="email" placeholder="mario@azienda.it" required /></div>
+          <div className="fgroup"><label>Azienda</label><input type="text" placeholder="Rossi S.r.l." /></div>
+          <div className="fgroup">
+            <label>Settore</label>
+            <select>
+              <option value="">Seleziona il settore</option>
+              {["Manifattura e Industria","Commercio e Retail","Artigianato","Studio Professionale","Agenzia","Distribuzione e Logistica","Servizi alle Imprese","Altro"].map(o => <option key={o}>{o}</option>)}
+            </select>
+          </div>
+          <div className="fgroup"><label>Qual è la sfida principale? <span>*</span></label><textarea placeholder="Es. troppo tempo su processi interni, difficoltà a gestire i clienti, decisioni senza dati sufficienti…" required /></div>
+          <p className="fnote">Prima consulenza gratuita e senza impegno. I tuoi dati non vengono condivisi con terze parti.</p>
+          <button type="submit" className="btn btn-navy" style={{ width: "100%", padding: "0.9rem" }}>Invia la richiesta →</button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+/* ─── CONTATTI ─── */
+function Contatti() {
+  return (
+    <section id="contatti">
+      <div className="container">
+        <div className="contact-wrap">
+          <div className="contact-left reveal">
+            <span className="eyebrow">Contatti</span>
+            <h2>Inizia con una<br /><span className="serif-italic gradient-text">conversazione onesta.</span></h2>
+            <p style={{ marginTop: "0.8rem" }}>Non siamo qui per vendere una soluzione. Siamo qui per capire la tua impresa e le sue sfide reali — e ragionare insieme su come l'AI può aiutarti concretamente.</p>
+            <div style={{ marginTop: "2.2rem" }}>
+              {[["Agenzia","Advanced AI"],["Dove operiamo","Abruzzo · Marche · Tutta Italia (anche da remoto)"],["Email","info@advanced-ai.it"],["Prima consulenza","Gratuita · 30–45 min · Nessun impegno"],["Risposta","Entro 24 ore lavorative"]].map(([lbl, val]) => (
+                <div key={lbl} className="cdetail"><div className="cd-lbl">{lbl}</div><div className="cd-val">{val}</div></div>
+              ))}
+            </div>
+          </div>
+          <div className="reveal d1"><FormCard /></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── FOOTER ─── */
 function Footer() {
   const go = (id: string) => goto(id);
   return (
@@ -535,34 +405,23 @@ function Footer() {
         <div className="footer-grid">
           <div>
             <div className="footer-logo"><div className="footer-dot" />Advanced AI</div>
-            <p className="footer-desc">
-              Consulenza strategica in intelligenza artificiale per imprese di Abruzzo, Marche e tutta Italia. Efficienza operativa, riduzione dei costi, nuove opportunità di crescita.
-            </p>
-            <p className="footer-kw">
-              Consulenza AI · Strategia AI per PMI · Efficienza operativa · Riduzione costi AI · Abruzzo · Marche
-            </p>
+            <p className="footer-desc">Consulenza strategica in intelligenza artificiale per imprese di Abruzzo, Marche e tutta Italia. Efficienza operativa, riduzione costi, nuove opportunità di crescita.</p>
+            <p className="footer-kw">Consulenza AI · Strategia AI per PMI · Efficienza operativa · Riduzione costi AI · Abruzzo · Marche</p>
           </div>
           <div className="footer-col">
             <h5>Navigazione</h5>
             <ul>
-              {[
-                ["valore","Perché l'AI"],
-                ["approccio","Il Metodo"],
-                ["aree","Aree di Intervento"],
-                ["perche","Chi Siamo"],
-                ["contatti","Contatti"],
-              ].map(([id, lbl]) => (
-                <li key={id}><a href={`#${id}`} onClick={(e) => { e.preventDefault(); go(id); }}>{lbl}</a></li>
+              {[["valore","Perché l'AI"],["approccio","Il Metodo"],["aree","Aree di Intervento"],["perche","Chi Siamo"],["contatti","Contatti"]].map(([id, lbl]) => (
+                <li key={id}><a href={`#${id}`} onClick={e => { e.preventDefault(); go(id); }}>{lbl}</a></li>
               ))}
             </ul>
           </div>
           <div className="footer-col">
             <h5>Dove Operiamo</h5>
             <ul>
-              <li><a>Abruzzo — Pescara · L'Aquila · Chieti · Teramo</a></li>
-              <li><a>Marche — Ancona · Pesaro · Macerata</a></li>
-              <li><a>Tutta Italia da remoto</a></li>
-              <li><a href="mailto:info@advanced-ai.it">info@advanced-ai.it</a></li>
+              {["Abruzzo — Pescara · L'Aquila · Chieti","Marche — Ancona · Pesaro · Macerata","Tutta Italia da remoto","info@advanced-ai.it"].map(v => (
+                <li key={v}><a href={v.includes("@") ? `mailto:${v}` : undefined}>{v}</a></li>
+              ))}
             </ul>
           </div>
         </div>
@@ -575,7 +434,7 @@ function Footer() {
   );
 }
 
-/* ── APP ── */
+/* ─── APP ─── */
 export default function App() {
   useReveal();
   return (
@@ -587,6 +446,7 @@ export default function App() {
       <Approccio />
       <Aree />
       <Perche />
+      <CtaBand />
       <Contatti />
       <Footer />
     </>
