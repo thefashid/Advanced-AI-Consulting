@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "M7NoAUd9rtOBafuOXR43v"
+uri = "file://advanced-ai-website.tar.gz"
+type = "unspecified"
+title = "advanced-ai.html — Sito Web Advanced AI"

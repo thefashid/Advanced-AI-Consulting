@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced AI — Consulenza in Intelligenza Artificiale per PMI</title>
+  <meta name="description" content="Advanced AI affianca le PMI di Abruzzo e Marche nell'adozione concreta dell'intelligenza artificiale e nell'automazione dei processi. Meno lavoro manuale, più risultati." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F9F7F2;
+      --cream-dark: #F0EDE5;
+      --black: #141414;
+      --anthracite: #2A2A2A;
+      --mid: #6B6B6B;
+      --light: #A8A8A8;
+      --border: #E0DBD3;
+      --accent: #B5924C;
+      --accent-dark: #9A7A3E;
+      --white: #FFFFFF;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+      --max: 1140px;
+      --radius: 2px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--anthracite);
+      line-height: 1.65;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── TYPOGRAPHY ── */
+    h1, h2, h3, h4 {
+      font-family: var(--serif);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--black);
+    }
+    h1 { font-size: clamp(2.6rem, 5.5vw, 4.4rem); }
+    h2 { font-size: clamp(2rem, 4vw, 3rem); }
+    h3 { font-size: clamp(1.3rem, 2.2vw, 1.7rem); }
+    p { font-size: 1.02rem; color: var(--mid); }
+
+    a { color: inherit; text-decoration: none; }
+
+    .accent { color: var(--accent); }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    section { padding: 7rem 0; }
+
+    .label {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.4rem;
+      display: block;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(249,247,242,0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.4s, box-shadow 0.4s;
+    }
+    nav.scrolled {
+      border-color: var(--border);
+      box-shadow: 0 1px 20px rgba(0,0,0,0.04);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.22rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: var(--black);
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.6rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--mid);
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--black); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.6rem;
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      border-radius: var(--radius);
+      transition: all 0.28s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--accent); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--black);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--black); }
+
+    .btn-accent {
+      background: var(--accent);
+      color: var(--white);
+    }
+    .btn-accent:hover { background: var(--accent-dark); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--black);
+      transition: all 0.3s;
+    }
+
+    /* Mobile nav */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      width: 100%;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem 2rem;
+      z-index: 99;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--anthracite);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 72px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 2rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .hero-eyebrow span {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .hero-title { margin-bottom: 1.6rem; }
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.08rem;
+      max-width: 440px;
+      margin-bottom: 2.6rem;
+      line-height: 1.75;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-visual {
+      position: relative;
+      height: 460px;
+    }
+
+    .hero-card {
+      position: absolute;
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 1.8rem;
+      border-radius: 4px;
+    }
+
+    .hero-card-main {
+      width: 310px;
+      top: 40px;
+      right: 0;
+    }
+    .hero-card-main .card-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 0.6rem;
+    }
+    .hero-card-main .card-value {
+      font-family: var(--serif);
+      font-size: 2.8rem;
+      font-weight: 300;
+      color: var(--black);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .hero-card-main .card-desc {
+      font-size: 0.82rem;
+      color: var(--mid);
+    }
+
+    .hero-card-stat {
+      width: 170px;
+      bottom: 60px;
+      left: 30px;
+    }
+    .hero-card-stat .stat-num {
+      font-family: var(--serif);
+      font-size: 2.4rem;
+      font-weight: 300;
+      color: var(--accent);
+      display: block;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .hero-card-stat .stat-text {
+      font-size: 0.8rem;
+      color: var(--mid);
+    }
+
+    .hero-card-tag {
+      width: 200px;
+      top: 240px;
+      left: 0;
+    }
+    .hero-card-tag .tag-line {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero-card-tag .tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .hero-card-tag .tag-text {
+      font-size: 0.82rem;
+      color: var(--anthracite);
+      font-weight: 400;
+    }
+
+    .hero-line {
+      position: absolute;
+      top: 130px;
+      right: 310px;
+      width: 60px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── PROBLEMS ── */
+    #problems { background: var(--black); }
+    #problems .label { color: #8A7A60; }
+    #problems h2 { color: var(--cream); }
+    #problems .section-sub { color: #8A8A8A; max-width: 520px; margin-top: 1rem; }
+
+    .problems-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      margin-top: 4.5rem;
+      border: 1px solid #2A2A2A;
+    }
+
+    .problem-item {
+      padding: 2.6rem;
+      border-right: 1px solid #2A2A2A;
+    }
+    .problem-item:last-child { border-right: none; }
+
+    .problem-number {
+      font-family: var(--serif);
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: #2A2A2A;
+      line-height: 1;
+      margin-bottom: 1.4rem;
+    }
+
+    .problem-title {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: var(--cream);
+      margin-bottom: 0.8rem;
+    }
+
+    .problem-desc {
+      font-size: 0.88rem;
+      color: #7A7A7A;
+      line-height: 1.7;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--cream); }
+
+    .services-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      margin-bottom: 4.5rem;
+    }
+    .services-header p { font-size: 1rem; max-width: 380px; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.5px;
+      background: var(--border);
+    }
+
+    .service-card {
+      background: var(--cream);
+      padding: 3rem 2.6rem;
+      position: relative;
+      transition: background 0.35s;
+    }
+    .service-card:hover { background: var(--white); }
+
+    .service-card.featured {
+      background: var(--black);
+    }
+    .service-card.featured:hover { background: #1e1e1e; }
+    .service-card.featured h3 { color: var(--cream); }
+    .service-card.featured .service-desc { color: #7a7a7a; }
+    .service-card.featured .service-price { color: var(--accent); }
+    .service-card.featured .service-badge { background: var(--accent); color: var(--white); }
+    .service-card.featured .service-includes li { color: #8a8a8a; }
+    .service-card.featured .service-includes li::before { color: var(--accent); }
+
+    .service-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 500;
+      background: var(--cream-dark);
+      color: var(--mid);
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      margin-bottom: 2rem;
+    }
+
+    .service-card h3 { margin-bottom: 1rem; }
+
+    .service-price {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--accent);
+      margin: 1.4rem 0 0.4rem;
+    }
+    .service-price-note {
+      font-size: 0.8rem;
+      color: var(--light);
+      margin-bottom: 1.6rem;
+    }
+
+    .service-desc {
+      font-size: 0.9rem;
+      color: var(--mid);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .service-includes {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-bottom: 2.4rem;
+    }
+    .service-includes li {
+      font-size: 0.84rem;
+      color: var(--mid);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+    .service-includes li::before {
+      content: '→';
+      color: var(--accent);
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      margin-top: 1px;
+    }
+
+    /* ── PROCESS ── */
+    #process { background: var(--cream-dark); }
+
+    .process-header { margin-bottom: 5rem; }
+    .process-header p { margin-top: 1rem; max-width: 480px; }
+
+    .process-timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      position: relative;
+    }
+
+    .process-timeline::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(12.5% + 0px);
+      right: calc(12.5% + 0px);
+      height: 1px;
+      background: var(--border);
+    }
+
+    .process-step {
+      padding: 0 1.5rem 0 0;
+      position: relative;
+    }
+
+    .step-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-bottom: 2.2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .step-dot::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1px solid var(--accent);
+      opacity: 0.3;
+    }
+
+    .step-number {
+      font-family: var(--serif);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 0.6rem;
+    }
+
+    .step-title {
+      font-family: var(--serif);
+      font-size: 1.22rem;
+      color: var(--black);
+      margin-bottom: 0.75rem;
+    }
+
+    .step-desc {
+      font-size: 0.86rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    /* ── DIFFERENTIATORS ── */
+    #differentiators { background: var(--cream); }
+
+    .diff-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .diff-left h2 { margin-bottom: 1.2rem; }
+    .diff-left p { max-width: 400px; }
+
+    .diff-right {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .diff-item {
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 1.4rem;
+      align-items: start;
+      transition: opacity 0.3s;
+    }
+
+    .diff-item:hover { opacity: 0.75; }
+
+    .diff-num {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--accent);
+      font-weight: 300;
+      padding-top: 2px;
+    }
+
+    .diff-content h4 {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--black);
+      margin-bottom: 0.4rem;
+    }
+    .diff-content p { font-size: 0.88rem; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--black); }
+    #contact .label { color: #8A7A60; }
+    #contact h2 { color: var(--cream); }
+    #contact .section-sub { color: #7a7a7a; margin-top: 1rem; max-width: 440px; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      margin-top: 4.5rem;
+    }
+
+    .contact-info { color: var(--cream); }
+
+    .contact-detail {
+      margin-bottom: 2.5rem;
+    }
+    .contact-detail-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #5a5a5a;
+      margin-bottom: 0.4rem;
+    }
+    .contact-detail-value {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--cream);
+      font-weight: 300;
+    }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .form-group label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #5a5a5a;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      background: #1a1a1a;
+      border: 1px solid #2e2e2e;
+      color: var(--cream);
+      font-family: var(--sans);
+      font-size: 0.94rem;
+      font-weight: 300;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius);
+      outline: none;
+      transition: border-color 0.25s;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .form-group textarea { min-height: 130px; resize: vertical; }
+
+    .form-note {
+      font-size: 0.78rem;
+      color: #4a4a4a;
+      line-height: 1.6;
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      color: var(--cream);
+    }
+    .form-success .success-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+    .form-success h3 {
+      font-family: var(--serif);
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+    .form-success p { color: #7a7a7a; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0C0C0C;
+      padding: 4rem 0 2.5rem;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 4rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid #1e1e1e;
+      margin-bottom: 2rem;
+    }
+
+    .footer-brand .nav-logo { font-size: 1.3rem; }
+    .footer-brand p {
+      font-size: 0.85rem;
+      color: #5a5a5a;
+      margin-top: 1rem;
+      max-width: 280px;
+      line-height: 1.75;
+    }
+
+    .footer-col h5 {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #4a4a4a;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+    .footer-col ul li a {
+      font-size: 0.86rem;
+      color: #5a5a5a;
+      transition: color 0.25s;
+    }
+    .footer-col ul li a:hover { color: var(--cream); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-bottom p {
+      font-size: 0.78rem;
+      color: #3a3a3a;
+    }
+    .footer-bottom a { color: #3a3a3a; transition: color 0.25s; }
+    .footer-bottom a:hover { color: var(--cream); }
+
+    /* ── ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-visual { display: none; }
+      .services-header { grid-template-columns: 1fr; gap: 1.5rem; }
+      .services-grid { grid-template-columns: 1fr; gap: 1px; }
+      .process-timeline { grid-template-columns: 1fr 1fr; gap: 3rem 2rem; }
+      .process-timeline::before { display: none; }
+      .diff-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+      .problems-grid { grid-template-columns: 1fr; }
+      .problem-item { border-right: none; border-bottom: 1px solid #2A2A2A; }
+      .problem-item:last-child { border-bottom: none; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 5rem 0; }
+      .container { padding: 0 1.4rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-ctas { flex-direction: column; }
+      .hero-ctas .btn { width: fit-content; }
+      .services-grid { gap: 0; background: none; }
+      .service-card { padding: 2rem 1.6rem; border: 1px solid var(--border); margin-bottom: 1px; }
+      .process-timeline { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 0.6rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ── -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Advanced <span>AI</span></a>
+      <ul class="nav-links">
+        <li><a href="#problems">Il Problema</a></li>
+        <li><a href="#services">Servizi</a></li>
+        <li><a href="#process">Come Lavoriamo</a></li>
+        <li><a href="#differentiators">Chi Siamo</a></li>
+        <li><a href="#contact" class="btn btn-primary">Prenota una Call</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#problems" onclick="closeMobileNav()">Il Problema</a>
+  <a href="#services" onclick="closeMobileNav()">Servizi</a>
+  <a href="#process" onclick="closeMobileNav()">Come Lavoriamo</a>
+  <a href="#differentiators" onclick="closeMobileNav()">Chi Siamo</a>
+  <a href="#contact" class="btn btn-primary" style="width:fit-content;margin-top:0.5rem" onclick="closeMobileNav()">Prenota una Call</a>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="hero-eyebrow reveal">
+          <span>Consulenza AI per PMI · Abruzzo &amp; Marche</span>
+        </div>
+        <h1 class="hero-title reveal reveal-delay-1">
+          L'intelligenza artificiale<br />che fa <em>davvero</em><br />risparmiare tempo.
+        </h1>
+        <p class="hero-sub reveal reveal-delay-2">
+          Basta processi manuali che rubano ore ogni giorno. Affianchiamo le PMI nell'adozione concreta dell'AI — non teoria, non slide, ma sistemi che funzionano da subito.
+        </p>
+        <div class="hero-ctas reveal reveal-delay-3">
+          <a href="#contact" class="btn btn-primary">Prenota una Call Gratuita</a>
+          <a href="#services" class="btn btn-outline">Scopri i Servizi</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card hero-card-main">
+          <div class="card-label">Ore risparmiate / settimana</div>
+          <div class="card-value">14+</div>
+          <div class="card-desc">media dei clienti dopo l'implementazione</div>
+        </div>
+        <div class="hero-card hero-card-tag">
+          <div class="tag-line"><span class="tag-dot"></span><span class="tag-text">Follow-up automatici</span></div>
+          <div class="tag-line"><span class="tag-dot"></span><span class="tag-text">Report in tempo reale</span></div>
+          <div class="tag-line"><span class="tag-dot"></span><span class="tag-text">Zero formazione tecnica</span></div>
+        </div>
+        <div class="hero-card hero-card-stat">
+          <span class="stat-num">3×</span>
+          <span class="stat-text">velocità nella gestione dei clienti</span>
+        </div>
+        <div class="hero-line"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROBLEMS ── -->
+<section id="problems">
+  <div class="container">
+    <span class="label reveal">Il Problema</span>
+    <h2 class="reveal">Cosa rallenta la tua azienda<br />ogni singolo giorno.</h2>
+    <p class="section-sub reveal">Non è pigrizia, è sistema. Le PMI italiane perdono ore preziose su attività che potrebbero essere automatizzate.</p>
+    <div class="problems-grid">
+      <div class="problem-item reveal reveal-delay-1">
+        <div class="problem-number">01</div>
+        <h3 class="problem-title">Processi manuali e ripetitivi</h3>
+        <p class="problem-desc">Dati inseriti a mano, email scritte ogni volta da zero, fatture, preventivi, report. Ore che non tornano indietro — e che il tuo team potrebbe usare per fare davvero la differenza.</p>
+      </div>
+      <div class="problem-item reveal reveal-delay-2">
+        <div class="problem-number">02</div>
+        <h3 class="problem-title">Follow-up dimenticati</h3>
+        <p class="problem-desc">Un cliente potenziale ti ha scritto due settimane fa. Non lo hai ricontattato. Non per mancanza di volontà, ma perché non c'è un sistema che lo ricordi al posto tuo.</p>
+      </div>
+      <div class="problem-item reveal reveal-delay-3">
+        <div class="problem-number">03</div>
+        <h3 class="problem-title">Reportistica lenta e imprecisa</h3>
+        <p class="problem-desc">Vuoi sapere com'è andata questa settimana. Ci vuole un'ora di Excel. E quando hai finito, i dati sono già vecchi. Decidere senza dati chiari significa affidarsi all'istinto — troppo spesso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="container">
+    <div class="services-header">
+      <div>
+        <span class="label reveal">Servizi</span>
+        <h2 class="reveal">Tre percorsi,<br />un risultato concreto.</h2>
+      </div>
+      <p class="reveal">Ogni progetto parte dall'analisi reale del tuo business. Nessun pacchetto generico, nessuna soluzione uguale per tutti.</p>
+    </div>
+
+    <div class="services-grid">
+      <!-- Card 1 -->
+      <div class="service-card reveal">
+        <span class="service-badge">Punto di Partenza</span>
+        <h3>AI Audit</h3>
+        <div class="service-price">500€</div>
+        <div class="service-price-note">pagamento unico · consegna in 5 giorni</div>
+        <p class="service-desc">Analisi approfondita dei tuoi processi aziendali. Ti diciamo esattamente dove puoi automatizzare e quanto puoi risparmiare — dati alla mano.</p>
+        <ul class="service-includes">
+          <li>Mappatura completa dei processi</li>
+          <li>Identificazione delle aree ad alto impatto</li>
+          <li>Stima concreta delle ore recuperabili</li>
+          <li>Roadmap prioritizzata di implementazione</li>
+          <li>Report scritto e sessione di debrief</li>
+        </ul>
+        <a href="#contact" class="btn btn-outline">Inizia dall'Audit</a>
+      </div>
+
+      <!-- Card 2 Featured -->
+      <div class="service-card featured reveal reveal-delay-1">
+        <span class="service-badge">Più Richiesto</span>
+        <h3>AI Implementation</h3>
+        <div class="service-price">1.500€</div>
+        <div class="service-price-note">pagamento unico · 3–4 settimane</div>
+        <p class="service-desc">Dall'audit all'implementazione reale. Configuriamo, integriamo e mettiamo in produzione gli strumenti AI adatti al tuo business — e ti formiamo sul loro utilizzo.</p>
+        <ul class="service-includes">
+          <li>AI Audit incluso</li>
+          <li>Setup e configurazione strumenti</li>
+          <li>Integrazione con i tuoi sistemi esistenti</li>
+          <li>Automazione dei 2–3 processi prioritari</li>
+          <li>Formazione del team (nessuna competenza tecnica richiesta)</li>
+          <li>Supporto per 30 giorni post-lancio</li>
+        </ul>
+        <a href="#contact" class="btn btn-accent">Prenota una Call</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="service-card reveal reveal-delay-2">
+        <span class="service-badge">Su Misura</span>
+        <h3>Software Custom</h3>
+        <div class="service-price">Su preventivo</div>
+        <div class="service-price-note">progetto personalizzato · tempi variabili</div>
+        <p class="service-desc">Quando gli strumenti standard non bastano. Sviluppiamo software su misura per le tue esigenze — applicazioni AI proprietarie, integrazioni specifiche, sistemi interni.</p>
+        <ul class="service-includes">
+          <li>Analisi dei requisiti dedicata</li>
+          <li>Sviluppo software custom</li>
+          <li>Integrazione con CRM, ERP o sistemi esistenti</li>
+          <li>Dashboard e reportistica in tempo reale</li>
+          <li>Manutenzione e aggiornamenti continuativi</li>
+        </ul>
+        <a href="#contact" class="btn btn-outline">Richiedi Preventivo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESS ── -->
+<section id="process">
+  <div class="container">
+    <div class="process-header">
+      <span class="label reveal">Come Lavoriamo</span>
+      <h2 class="reveal">Dal primo contatto<br />ai risultati in produzione.</h2>
+      <p class="reveal">Un processo in quattro step, lineare e trasparente. Sai sempre dove siamo e cosa succederà dopo.</p>
+    </div>
+
+    <div class="process-timeline">
+      <div class="process-step reveal">
+        <div class="step-dot"></div>
+        <div class="step-number">Step 01</div>
+        <h3 class="step-title">Call di Diagnosi</h3>
+        <p class="step-desc">Una chiamata di 30 minuti per capire il tuo business, i tuoi processi e le tue priorità. Gratuita, senza impegno. Ti diciamo subito se e come possiamo aiutarti.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-dot"></div>
+        <div class="step-number">Step 02</div>
+        <h3 class="step-title">Analisi e Mappa</h3>
+        <p class="step-desc">Entriamo nel dettaglio dei tuoi flussi di lavoro. Identifichiamo le inefficienze, valutiamo le opportunità e produciamo una roadmap concreta con le priorità indicate.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-dot"></div>
+        <div class="step-number">Step 03</div>
+        <h3 class="step-title">Implementazione</h3>
+        <p class="step-desc">Configuriamo e integriamo gli strumenti. Lavoriamo in modo agile — risultati visibili in settimane, non mesi. Il tuo team viene formato durante il processo, non dopo.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-dot"></div>
+        <div class="step-number">Step 04</div>
+        <h3 class="step-title">Supporto Continuativo</h3>
+        <p class="step-desc">Non sparaimo dopo il lancio. Monitoriamo i risultati, raccogliamo il feedback del team e ottimizziamo. Il tuo vantaggio competitivo cresce nel tempo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DIFFERENTIATORS ── -->
+<section id="differentiators">
+  <div class="container">
+    <div class="diff-grid">
+      <div class="diff-left">
+        <span class="label reveal">Perché Noi</span>
+        <h2 class="reveal">Non siamo consulenti.<br />Siamo <em>operatori</em>.</h2>
+        <p class="reveal" style="margin-top:1.2rem;">La differenza tra chi spiega l'AI in un PowerPoint e chi la mette davvero a lavoro per il tuo business.</p>
+      </div>
+
+      <div class="diff-right">
+        <div class="diff-item reveal">
+          <div class="diff-num">01</div>
+          <div class="diff-content">
+            <h4>Radicati in Abruzzo e Marche</h4>
+            <p>Siamo qui. Conosciamo il tessuto produttivo locale — artigianato, manifattura, commercio, professionisti. Capiamo le esigenze delle PMI del territorio perché ci viviamo dentro.</p>
+          </div>
+        </div>
+        <div class="diff-item reveal reveal-delay-1">
+          <div class="diff-num">02</div>
+          <div class="diff-content">
+            <h4>Approccio concreto, non teorico</h4>
+            <p>Zero slide sull'AI del futuro. Zero gergo inutile. Ti diciamo cosa funzionerà per il tuo caso specifico, lo implementiamo e ti mostriamo i risultati. Subito, in produzione, misurabili.</p>
+          </div>
+        </div>
+        <div class="diff-item reveal reveal-delay-2">
+          <div class="diff-num">03</div>
+          <div class="diff-content">
+            <h4>AI e marketing insieme</h4>
+            <p>Integriamo l'AI con la strategia commerciale: automazione del follow-up, qualificazione dei lead, reportistica sulle vendite. Il technology serve il business, non il contrario.</p>
+          </div>
+        </div>
+        <div class="diff-item reveal reveal-delay-3">
+          <div class="diff-num">04</div>
+          <div class="diff-content">
+            <h4>Nessuna competenza tecnica richiesta</h4>
+            <p>Il tuo team non deve diventare programmatore. Selezioniamo strumenti che le persone reali usano con piacere, li configuriamo per il vostro flusso e li spieghiamo in italiano semplice.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="container">
+    <span class="label reveal">Contatti</span>
+    <h2 class="reveal">Parliamoci.<br />La prima call è gratuita.</h2>
+    <p class="section-sub reveal">Niente presentazioni commerciali. Una conversazione onesta su dove sei e dove puoi arrivare.</p>
+
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="contact-detail">
+          <div class="contact-detail-label">Agenzia</div>
+          <div class="contact-detail-value">Advanced AI</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Territorio</div>
+          <div class="contact-detail-value">Abruzzo · Marche · Tutta Italia da remoto</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-value">info@advanced-ai.it</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Orari</div>
+          <div class="contact-detail-value">Lun–Ven, 9:00–18:00</div>
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-label">Prima Call</div>
+          <div class="contact-detail-value">Gratuita · 30 minuti · Senza impegno</div>
+        </div>
+      </div>
+
+      <div class="reveal reveal-delay-1">
+        <form class="contact-form" id="contactForm">
+          <div class="form-group">
+            <label for="name">Nome e Cognome</label>
+            <input type="text" id="name" name="name" placeholder="Mario Rossi" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="mario@azienda.it" required />
+          </div>
+          <div class="form-group">
+            <label for="company">Azienda (opzionale)</label>
+            <input type="text" id="company" name="company" placeholder="Rossi S.r.l." />
+          </div>
+          <div class="form-group">
+            <label for="message">In cosa possiamo aiutarti?</label>
+            <textarea id="message" name="message" placeholder="Descrivi brevemente il tuo business e il problema che vuoi risolvere..." required></textarea>
+          </div>
+          <p class="form-note">Rispondo entro 24 ore lavorative. I tuoi dati non saranno condivisi con terze parti.</p>
+          <button type="submit" class="btn btn-accent" style="width:fit-content;">Invia il Messaggio →</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="success-icon">✓</div>
+          <h3>Messaggio inviato.</h3>
+          <p>Ti contatteremo entro 24 ore lavorative.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo">Advanced <span>AI</span></div>
+        <p>Consulenza in intelligenza artificiale e automazione dei processi per PMI italiane. Radicati in Abruzzo e Marche, operativi in tutta Italia.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Navigazione</h5>
+        <ul>
+          <li><a href="#problems">Il Problema</a></li>
+          <li><a href="#services">Servizi</a></li>
+          <li><a href="#process">Come Lavoriamo</a></li>
+          <li><a href="#differentiators">Chi Siamo</a></li>
+          <li><a href="#contact">Contatti</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Recapiti</h5>
+        <ul>
+          <li><a href="mailto:info@advanced-ai.it">info@advanced-ai.it</a></li>
+          <li><a href="#">Abruzzo · Marche</a></li>
+          <li><a href="#contact">Prenota una Call</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 Advanced AI — Tutti i diritti riservati</p>
+      <p><a href="#">Privacy Policy</a> · <a href="#">Cookie Policy</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── NAV SCROLL ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // ── MOBILE NAV ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  hamburger.addEventListener('click', () => {
+    mobileNav.classList.toggle('open');
+  });
+  function closeMobileNav() {
+    mobileNav.classList.remove('open');
+  }
+
+  // ── SCROLL REVEAL ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── CONTACT FORM ──
+  const form = document.getElementById('contactForm');
+  const formSuccess = document.getElementById('formSuccess');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    btn.textContent = 'Invio in corso…';
+    btn.disabled = true;
+    setTimeout(() => {
+      form.style.display = 'none';
+      formSuccess.style.display = 'block';
+    }, 900);
+  });
+
+  // ── SMOOTH ANCHOR OFFSET (fixed nav) ──
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      const target = document.querySelector(anchor.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 72;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
