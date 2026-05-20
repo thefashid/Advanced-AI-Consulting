@@ -81,7 +81,7 @@ nav.scrolled{border-color:var(--border);box-shadow:0 1px 0 var(--border),0 4px 2
 .btn-lg{padding:1rem 2.2rem;font-size:1rem;}
 
 /* ── HERO ── */
-#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:68px;position:relative;overflow:hidden;}
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:120px;position:relative;overflow:hidden;}
 
 /* subtle background gradients */
 #hero::before{
