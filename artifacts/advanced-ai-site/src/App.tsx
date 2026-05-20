@@ -72,10 +72,6 @@ function Hero() {
   return (
     <section id="hero">
       <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div className="hero-badge hero-anim">
-          <span className="badge-dot" />
-          Consulenza AI per Imprese · Abruzzo &amp; Marche
-        </div>
         <h1 className="hero-h1 hero-anim-1">
           L'intelligenza artificiale<br />
           <span className="serif-italic gradient-text">che crea valore reale<br />per la tua impresa.</span>
