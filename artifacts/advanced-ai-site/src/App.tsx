@@ -66,53 +66,6 @@ function Nav() {
   );
 }
 
-/* ─── HERO ILLUSTRATION ─── */
-function HeroIllustration() {
-  const bars = [28, 45, 35, 55, 42, 60, 50, 72, 65, 88];
-  return (
-    <div className="hero-illustration reveal d3">
-      <div className="hero-ill-inner">
-        {/* mini nav bar */}
-        <div className="ill-topbar">
-          <div className="ill-logo">Advanced AI</div>
-          <div className="ill-nav-items">
-            {["Overview", "Strategia", "Analisi", "Report"].map((n, i) => (
-              <span key={n} className={`ill-nav-item${i === 1 ? " active" : ""}`}>{n}</span>
-            ))}
-          </div>
-          <div style={{ width: "80px" }} />
-        </div>
-
-        {/* cards row */}
-        <div className="ill-cards-row">
-          {[
-            { label: "Efficienza operativa", val: "+82%", sub: "vs. 3 mesi fa", badge: "▲ 12%", type: "up" },
-            { label: "Ore recuperate", val: "14h", sub: "ogni settimana", badge: "▲ 6h", type: "up" },
-            { label: "Costi operativi", val: "−40%", sub: "riduzione media", badge: "↓ ottimizzato", type: "up" },
-          ].map((m, i) => (
-            <div key={i} className="ill-metric-card">
-              <div className="im-label">{m.label}</div>
-              <div className="im-val">{m.val}</div>
-              <div className="im-sub">{m.sub}</div>
-              <span className={`im-badge badge-${m.type}`}>{m.badge}</span>
-            </div>
-          ))}
-          <div className="ill-chart-card">
-            <div className="ic-header">
-              <span className="ic-title">Performance AI — ultimi 10 cicli</span>
-              <span className="ic-badge">LIVE</span>
-            </div>
-            <div className="ic-bars">
-              {bars.map((h, i) => <div key={i} className={`ic-bar${i >= 6 ? " hi" : ""}`} style={{ height: `${h}%` }} />)}
-            </div>
-          </div>
-        </div>
-
-        <div className="ill-horizon" />
-      </div>
-    </div>
-  );
-}
 
 /* ─── HERO ─── */
 function Hero() {
@@ -140,7 +93,6 @@ function Hero() {
           </a>
         </div>
         <p className="hero-note hero-anim-3">Prima consulenza gratuita · Nessun impegno · Risposta entro 24 ore</p>
-        <HeroIllustration />
       </div>
     </section>
   );
