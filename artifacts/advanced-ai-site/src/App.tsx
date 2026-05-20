@@ -88,7 +88,7 @@ function Hero() {
             Scopri il metodo
           </a>
         </div>
-        <p className="hero-note hero-anim-3">Prima consulenza gratuita · Nessun impegno · Risposta entro 24 ore</p>
+        <p className="hero-note hero-anim-3">Prima consulenza · Nessun impegno · Risposta entro 24h</p>
       </div>
     </section>
   );
