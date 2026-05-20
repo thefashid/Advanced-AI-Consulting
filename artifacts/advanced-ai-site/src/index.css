@@ -63,6 +63,7 @@ nav.scrolled{border-color:var(--border);box-shadow:0 1px 0 var(--border),0 4px 2
 .nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
 .nav-links a{font-family:var(--sans);font-size:0.875rem;font-weight:500;color:var(--sub);transition:color 0.2s;}
 .nav-links a:hover{color:var(--navy);}
+.nav-links a.btn-navy,.nav-links a.btn-navy:hover{color:var(--white);}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none;}
 .hamburger span{display:block;width:22px;height:1.5px;background:var(--navy);}
 .mobile-nav{display:none;position:fixed;top:68px;left:0;width:100%;background:var(--white);border-bottom:1px solid var(--border);padding:1.5rem 2rem 2rem;z-index:99;flex-direction:column;gap:1.2rem;box-shadow:0 8px 32px rgba(0,0,0,0.06);}
@@ -328,25 +329,21 @@ nav.scrolled{border-color:var(--border);box-shadow:0 1px 0 var(--border),0 4px 2
 .cd-lbl{font-family:var(--sans);font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.25rem;}
 .cd-val{font-family:var(--sans);font-size:0.95rem;font-weight:600;color:var(--navy);}
 
-.form-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-card);box-shadow:var(--shadow-2);overflow:hidden;}
-.fc-header{background:var(--navy);padding:1rem 1.8rem;display:flex;align-items:center;justify-content:space-between;}
-.fc-title-small{font-family:var(--sans);font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.55);}
-.fc-badge{font-family:var(--sans);font-size:0.65rem;font-weight:700;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.75);padding:0.25rem 0.7rem;border-radius:var(--r-pill);letter-spacing:0.06em;}
-.fc-body{padding:2rem;}
-.fc-headline{font-family:var(--sans);font-size:1.35rem;font-weight:800;color:var(--navy);margin-bottom:1.6rem;letter-spacing:-0.02em;line-height:1.2;}
-.fgroup{display:flex;flex-direction:column;gap:0.3rem;margin-bottom:0.9rem;}
-.fgroup label{font-family:var(--sans);font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--sub);}
-.fgroup label span{color:var(--blue);}
-.fgroup input,.fgroup textarea,.fgroup select{background:var(--bg-2);border:1.5px solid var(--border);color:var(--navy);font-family:var(--body);font-size:0.93rem;padding:0.72rem 1rem;border-radius:var(--r-sm);outline:none;transition:border-color 0.2s,box-shadow 0.2s;width:100%;-webkit-appearance:none;appearance:none;}
-.fgroup input::placeholder,.fgroup textarea::placeholder{color:var(--muted);}
-.fgroup input:focus,.fgroup textarea:focus,.fgroup select:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px rgba(27,80,212,0.08);}
-.fgroup textarea{min-height:100px;resize:vertical;}
-.fgroup select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394A3B8' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;cursor:pointer;}
-.fgroup option{background:var(--white);}
-.fnote{font-size:0.75rem;color:var(--muted);line-height:1.6;margin-bottom:1rem;font-family:var(--body);}
-.fsuccess{text-align:center;padding:3rem 1rem;}
-.fsuccess .si{font-size:2rem;margin-bottom:0.8rem;}
-.fsuccess h3{font-size:1.3rem;font-weight:800;color:var(--navy);margin-bottom:0.4rem;}
+/* calendly embed */
+.calendly-wrap{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--r-card);
+  box-shadow:var(--shadow-2);
+  overflow:hidden;
+}
+.calendly-header{
+  background:var(--navy);padding:1rem 1.8rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ch-title{font-family:var(--sans);font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.55);}
+.ch-badge{font-family:var(--sans);font-size:0.65rem;font-weight:700;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.8);padding:0.25rem 0.7rem;border-radius:var(--r-pill);letter-spacing:0.06em;}
+.calendly-frame{display:block;border:none;width:100%;min-height:680px;}
 
 /* ── FOOTER ── */
 footer{background:var(--navy);padding:5rem 0 2.5rem;}

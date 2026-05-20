@@ -1,4 +1,4 @@
-import { useEffect, useState, FormEvent } from "react";
+import { useEffect, useState } from "react";
 
 function useReveal() {
   useEffect(() => {
@@ -336,39 +336,20 @@ function CtaBand() {
   );
 }
 
-/* ─── CONTACT FORM ─── */
-function FormCard() {
-  const [sent, setSent] = useState(false);
-  const handle = (e: FormEvent) => { e.preventDefault(); setTimeout(() => setSent(true), 700); };
-  if (sent) {
-    return (
-      <div className="form-card">
-        <div className="fc-header"><span className="fc-title-small">Consulenza Gratuita</span><span className="fc-badge">Risposta entro 24h</span></div>
-        <div className="fc-body"><div className="fsuccess"><div className="si">✓</div><h3>Messaggio ricevuto.</h3><p>Ti contatteremo entro 24 ore lavorative.</p></div></div>
-      </div>
-    );
-  }
+/* ─── CALENDLY EMBED ─── */
+function CalendlyEmbed() {
   return (
-    <div className="form-card">
-      <div className="fc-header"><span className="fc-title-small">Prima Consulenza Gratuita</span><span className="fc-badge">Risposta entro 24h</span></div>
-      <div className="fc-body">
-        <div className="fc-headline">Raccontaci la tua sfida.</div>
-        <form onSubmit={handle}>
-          <div className="fgroup"><label>Nome e Cognome <span>*</span></label><input type="text" placeholder="Mario Rossi" required /></div>
-          <div className="fgroup"><label>Email <span>*</span></label><input type="email" placeholder="mario@azienda.it" required /></div>
-          <div className="fgroup"><label>Azienda</label><input type="text" placeholder="Rossi S.r.l." /></div>
-          <div className="fgroup">
-            <label>Settore</label>
-            <select>
-              <option value="">Seleziona il settore</option>
-              {["Manifattura e Industria","Commercio e Retail","Artigianato","Studio Professionale","Agenzia","Distribuzione e Logistica","Servizi alle Imprese","Altro"].map(o => <option key={o}>{o}</option>)}
-            </select>
-          </div>
-          <div className="fgroup"><label>Qual è la sfida principale? <span>*</span></label><textarea placeholder="Es. troppo tempo su processi interni, difficoltà a gestire i clienti, decisioni senza dati sufficienti…" required /></div>
-          <p className="fnote">Prima consulenza gratuita e senza impegno. I tuoi dati non vengono condivisi con terze parti.</p>
-          <button type="submit" className="btn btn-navy" style={{ width: "100%", padding: "0.9rem" }}>Invia la richiesta →</button>
-        </form>
+    <div className="calendly-wrap">
+      <div className="calendly-header">
+        <span className="ch-title">Prenota una call gratuita</span>
+        <span className="ch-badge">30–45 min · Gratuita</span>
       </div>
+      <iframe
+        className="calendly-frame"
+        src="https://calendly.com/antoniotorellix/new-meeting?hide_gdpr_banner=1&background_color=ffffff&text_color=0d1b3e&primary_color=1b50d4"
+        title="Prenota una consulenza gratuita con Advanced AI"
+        loading="lazy"
+      />
     </div>
   );
 }
@@ -389,7 +370,7 @@ function Contatti() {
               ))}
             </div>
           </div>
-          <div className="reveal d1"><FormCard /></div>
+          <div className="reveal d1"><CalendlyEmbed /></div>
         </div>
       </div>
     </section>
