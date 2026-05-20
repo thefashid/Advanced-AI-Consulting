@@ -119,19 +119,19 @@ function Hero() {
   return (
     <section id="hero">
       <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div className="hero-badge reveal">
+        <div className="hero-badge hero-anim">
           <span className="badge-dot" />
           Consulenza AI per Imprese · Abruzzo &amp; Marche
         </div>
-        <h1 className="hero-h1 reveal d1">
+        <h1 className="hero-h1 hero-anim-1">
           L'intelligenza artificiale<br />
           <span className="serif-italic gradient-text">che crea valore reale<br />per la tua impresa.</span>
         </h1>
-        <p className="hero-lead reveal d2">
+        <p className="hero-lead hero-anim-2">
           Affianchiamo le imprese di Abruzzo e Marche nell'identificare dove e come l'AI può ridurre i costi,
           recuperare ore produttive e aprire nuove opportunità di crescita — con metodo e risultati misurabili.
         </p>
-        <div className="hero-ctas reveal d2">
+        <div className="hero-ctas hero-anim-3">
           <a href="#contatti" className="btn btn-navy btn-lg" onClick={e => { e.preventDefault(); goto("contatti"); }}>
             Richiedi la consulenza gratuita →
           </a>
@@ -139,7 +139,7 @@ function Hero() {
             Scopri il metodo
           </a>
         </div>
-        <p className="hero-note reveal d2">Prima consulenza gratuita · Nessun impegno · Risposta entro 24 ore</p>
+        <p className="hero-note hero-anim-3">Prima consulenza gratuita · Nessun impegno · Risposta entro 24 ore</p>
         <HeroIllustration />
       </div>
     </section>

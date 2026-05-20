@@ -361,21 +361,46 @@ footer{background:var(--navy);padding:5rem 0 2.5rem;}
 .footer-bottom a{color:rgba(255,255,255,0.3);transition:color 0.2s;}
 .footer-bottom a:hover{color:rgba(255,255,255,0.65);}
 
-/* ── REVEAL ── */
+/* ── REVEAL (scroll sections only) ── */
 .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.6s ease,transform 0.6s ease;}
 .reveal.visible{opacity:1;transform:none;}
 .d1{transition-delay:0.08s;}.d2{transition-delay:0.16s;}.d3{transition-delay:0.24s;}.d4{transition-delay:0.32s;}
+
+/* ── HERO ENTRANCE (CSS-only, no JS dependency) ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+.hero-anim{animation:fadeUp 0.7s ease both;}
+.hero-anim-1{animation:fadeUp 0.7s 0.05s ease both;}
+.hero-anim-2{animation:fadeUp 0.7s 0.15s ease both;}
+.hero-anim-3{animation:fadeUp 0.7s 0.28s ease both;}
+.hero-anim-4{animation:fadeUp 0.7s 0.42s ease both;}
 
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
   .value-intro,.approach-wrap,.perche-wrap,.contact-wrap{grid-template-columns:1fr;}
   .value-pillars{grid-template-columns:1fr 1fr;}
   .areas-grid{grid-template-columns:1fr 1fr 1fr;}
-  .hero-illustration{max-width:680px;}
+  .hero-illustration{max-width:700px;}
   .footer-grid{grid-template-columns:1fr 1fr;}
   .vi-right{grid-template-columns:1fr 1fr;}
-  .approach-left p{max-width:100%;}
-  .perche-left p{max-width:100%;}
+  .approach-left p,.perche-left p,.vi-left p{max-width:100%;}
+  section{padding:5.5rem 0;}
+}
+
+/* ── TABLET 600–900px ── */
+@media(max-width:900px){
+  h1{font-size:clamp(2rem,6vw,3.2rem);}
+  h2{font-size:clamp(1.6rem,4vw,2.4rem);}
+  .hero-illustration{max-width:100%;}
+  .hero-ill-inner{padding:1.8rem 1.8rem 0;}
+  .ill-topbar{display:none;}
+  .ill-cards-row{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+  .ill-chart-card{grid-column:1 / -1;}
+  .ill-metric-card{padding:1rem;}
+  .im-val{font-size:1.5rem;}
+  .areas-grid{grid-template-columns:1fr 1fr;}
+  .value-pillars{grid-template-columns:1fr;}
+  .vi-right{grid-template-columns:1fr 1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
 }
 
 @media(max-width:768px){
