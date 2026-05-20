@@ -1,0 +1,9 @@
+{
+  "buildCommand": "pnpm --filter @workspace/advanced-ai-site run build",
+  "outputDirectory": "artifacts/advanced-ai-site/dist/public",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "env": {
+    "BASE_PATH": "/"
+  }
+}
