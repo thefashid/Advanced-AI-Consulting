@@ -317,7 +317,7 @@ function Contatti() {
             <h2>Inizia con una<br /><span className="serif-italic gradient-text">conversazione onesta.</span></h2>
             <p style={{ marginTop: "0.8rem" }}>Non siamo qui per vendere una soluzione. Siamo qui per capire la tua impresa e le sue sfide reali — e ragionare insieme su come l'AI può aiutarti concretamente.</p>
             <div style={{ marginTop: "2.2rem" }}>
-              {[["Agenzia","Advanced AI"],["Dove operiamo","Abruzzo · Marche · Tutta Italia (anche da remoto)"],["Email","info@advanced-ai.it"],["Prima consulenza","Gratuita · 30–45 min · Nessun impegno"],["Risposta","Entro 24 ore lavorative"]].map(([lbl, val]) => (
+              {[["Dove operiamo","Abruzzo · Marche · Tutta Italia (anche da remoto)"],["Email","info@advancedservizi.it"],["Prima consulenza","Conoscitiva · 15 minuti · Nessun impegno"],["Risposta","Entro 24 ore lavorative"]].map(([lbl, val]) => (
                 <div key={lbl} className="cdetail"><div className="cd-lbl">{lbl}</div><div className="cd-val">{val}</div></div>
               ))}
             </div>
@@ -352,7 +352,7 @@ function Footer() {
           <div className="footer-col">
             <h5>Dove Operiamo</h5>
             <ul>
-              {["Abruzzo — Pescara · L'Aquila · Chieti","Marche — Ancona · Pesaro · Macerata","Tutta Italia da remoto","info@advanced-ai.it"].map(v => (
+              {["Abruzzo — Pescara · L'Aquila · Chieti","Marche — Ancona · Pesaro · Macerata","Tutta Italia da remoto","info@advancedservizi.it"].map(v => (
                 <li key={v}><a href={v.includes("@") ? `mailto:${v}` : undefined}>{v}</a></li>
               ))}
             </ul>
