@@ -18,8 +18,8 @@ export function OgImage() {
           backgroundImage:
             "linear-gradient(rgba(11,13,18,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(11,13,18,0.035) 1px, transparent 1px)",
           backgroundSize: "48px 48px",
-          maskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 10%, transparent 75%)",
-          WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black 10%, transparent 75%)",
+          maskImage: "radial-gradient(ellipse 60% 65% at 18% 28%, black 15%, transparent 80%)",
+          WebkitMaskImage: "radial-gradient(ellipse 60% 65% at 18% 28%, black 15%, transparent 80%)",
         }}
       />
 
