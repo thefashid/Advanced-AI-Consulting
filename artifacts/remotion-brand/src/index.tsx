@@ -1,5 +1,6 @@
-import { registerRoot, Composition } from "remotion";
+import { registerRoot, Composition, Still } from "remotion";
 import { HubLoop } from "./HubLoop";
+import { OgImage } from "./OgImage";
 
 const Root = () => (
   <>
@@ -11,6 +12,7 @@ const Root = () => (
       width={1920}
       height={1080}
     />
+    <Still id="OgImage" component={OgImage} width={1200} height={630} />
   </>
 );
 
