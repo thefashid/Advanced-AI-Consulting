@@ -1,0 +1,18 @@
+{
+  "name": "@workspace/remotion-brand",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "preview": "remotion studio src/index.ts",
+    "render:hub-loop": "remotion render src/index.ts HubLoop out/hub-loop.mp4"
+  },
+  "devDependencies": {
+    "@remotion/cli": "4.0.259",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "remotion": "4.0.259",
+    "@types/react": "catalog:",
+    "@types/node": "catalog:"
+  }
+}
