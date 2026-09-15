@@ -10,7 +10,7 @@ export function OgImage() {
       <AbsoluteFill
         style={{
           background:
-            "radial-gradient(ellipse 60% 70% at 8% 15%, rgba(47,90,255,0.10) 0%, transparent 60%), radial-gradient(ellipse 55% 65% at 95% 100%, rgba(23,201,168,0.12) 0%, transparent 60%)",
+            "radial-gradient(ellipse 55% 65% at 10% 10%, rgba(47,90,255,0.22) 0%, transparent 62%), radial-gradient(ellipse 55% 65% at 95% 100%, rgba(23,201,168,0.16) 0%, transparent 60%)",
         }}
       />
       <AbsoluteFill
